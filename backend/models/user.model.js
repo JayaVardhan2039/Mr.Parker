@@ -26,6 +26,36 @@ const userSchema = new mongoose.Schema({
     },
     socketId:{
         type:String,
+    },
+    vehicle:{
+        color:{
+            type:String,
+            required:true,
+            minlength:[3,'Color must be atleast 3 characters long'],
+        },
+        plate:{
+            type:String,
+            required:true,
+            minlength:[3,'Plate must be atleast 3 characters long'],
+        },
+        capacity:{
+            type:Number,
+            required:true,
+            minlength:[1,'Capacity must be atleast 1'],
+        },
+        vehicleType:{
+            type:String,
+            required:true,
+            enum: ['car','motorcycle','bicycle','bike'],
+        },
+        location:{
+            lat:{
+                type:Number,
+            },
+            lng:{
+                type:Number,
+            },
+        },
     }
 });
 
