@@ -170,3 +170,99 @@ Example:
 }
 ```
 
+# User Profile Endpoint
+
+## Endpoint
+`GET /users/profile`
+
+## Description
+This endpoint is used to retrieve the profile of the authenticated user.
+
+## Request Headers
+- `Authorization` (string, required): The JWT token of the authenticated user.
+
+## Responses
+
+### Success
+- **Status Code**: `200 OK`
+- **Response Body**: A JSON object containing the user details.
+
+Example:
+```json
+{
+  "_id": "user_id",
+  "fullname": {
+    "firstname": "Jaya",
+    "lastname": "Vardhan"
+  },
+  "email": "jaya.vardhan@example.com"
+}
+```
+
+### Authentication Errors
+- **Status Code**: `401 Unauthorized`
+- **Response Body**: A JSON object containing an error message.
+
+Example:
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+### Server Errors
+- **Status Code**: `500 Internal Server Error`
+- **Response Body**: A JSON object containing an error message.
+
+Example:
+```json
+{
+  "error": "Internal Server Error"
+}
+```
+
+# User Logout Endpoint
+
+## Endpoint
+`GET /users/logout`
+
+## Description
+This endpoint is used to log out the authenticated user.
+
+## Request Headers
+- `Authorization` (string, required): The JWT token of the authenticated user.
+
+## Responses
+
+### Success
+- **Status Code**: `200 OK`
+- **Response Body**: A JSON object containing a success message.
+
+Example:
+```json
+{
+  "message": "Successfully logged out"
+}
+```
+
+### Authentication Errors
+- **Status Code**: `401 Unauthorized`
+- **Response Body**: A JSON object containing an error message.
+
+Example:
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+### Server Errors
+- **Status Code**: `500 Internal Server Error`
+- **Response Body**: A JSON object containing an error message.
+
+Example:
+```json
+{
+  "error": "Internal Server Error"
+}
+
