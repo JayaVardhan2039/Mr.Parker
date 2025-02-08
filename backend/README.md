@@ -83,3 +83,90 @@ Example:
   "error": "Internal Server Error"
 }
 ```
+
+# User Login Endpoint
+
+## Endpoint
+`POST /users/login`
+
+## Description
+This endpoint is used to log in an existing user. It requires the user's email and password.
+
+## Request Body
+The request body should be a JSON object containing the following fields:
+- `email` (string, required): The email address of the user. Must be a valid email format.
+- `password` (string, required): The password for the user. Must be at least 5 characters long.
+
+Example:
+```json
+{
+  "email": "jaya.vardhan@example.com",
+  "password": "password123"
+}
+```
+
+## Responses
+
+### Success
+- **Status Code**: `200 OK`
+- **Response Body**: A JSON object containing the authentication token and user details.
+
+Example:
+```json
+{
+  "token": "your_jwt_token",
+  "user": {
+    "_id": "user_id",
+    "fullname": {
+      "firstname": "Jaya",
+      "lastname": "Vardhan"
+    },
+    "email": "jaya.vardhan@example.com"
+  }
+}
+```
+
+### Validation Errors
+- **Status Code**: `400 Bad Request`
+- **Response Body**: A JSON object containing an array of validation error messages.
+
+Example:
+```json
+{
+  "errors": [
+    {
+      "msg": "Invalid Email",
+      "param": "email",
+      "location": "body"
+    },
+    {
+      "msg": "Password must be atleast 5 characters long",
+      "param": "password",
+      "location": "body"
+    }
+  ]
+}
+```
+
+### Authentication Errors
+- **Status Code**: `401 Unauthorized`
+- **Response Body**: A JSON object containing an error message.
+
+Example:
+```json
+{
+  "message": "Invalid Email or Password"
+}
+```
+
+### Server Errors
+- **Status Code**: `500 Internal Server Error`
+- **Response Body**: A JSON object containing an error message.
+
+Example:
+```json
+{
+  "error": "Internal Server Error"
+}
+```
+
