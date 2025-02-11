@@ -318,10 +318,10 @@ Example:
 ```json
 {
   "fullname": {
-    "firstname": "John",
-    "lastname": "Doe"
+    "firstname": "Jaya",
+    "lastname": "Vardhan"
   },
-  "email": "john.doe@example.com",
+  "email": "Jaya.Vardhan@example.com",
   "password": "password123"
 }
 ```
@@ -339,10 +339,10 @@ Example:
   "MrParker": {
     "_id": "mrparker_id",
     "fullname": {
-      "firstname": "John",
-      "lastname": "Doe"
+      "firstname": "Jaya",
+      "lastname": "Vardhan"
     },
-    "email": "john.doe@example.com"
+    "email": "Jaya.Vardhan@example.com"
   }
 }
 ```
@@ -401,7 +401,7 @@ The request body should be a JSON object containing the following fields:
 Example:
 ```json
 {
-  "email": "john.doe@example.com",
+  "email": "Jaya.Vardhan@example.com",
   "password": "password123"
 }
 ```
@@ -419,10 +419,10 @@ Example:
   "MrParker": {
     "_id": "mrparker_id",
     "fullname": {
-      "firstname": "John",
-      "lastname": "Doe"
+      "firstname": "Jaya",
+      "lastname": "Vardhan"
     },
-    "email": "john.doe@example.com"
+    "email": "Jaya.Vardhan@example.com"
   }
 }
 ```
@@ -493,10 +493,10 @@ Example:
 {
   "_id": "mrparker_id",
   "fullname": {
-    "firstname": "John",
-    "lastname": "Doe"
+    "firstname": "Jaya",
+    "lastname": "Vardhan"
   },
-  "email": "john.doe@example.com"
+  "email": "Jaya.Vardhan@example.com"
 }
 ```
 
