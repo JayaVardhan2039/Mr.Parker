@@ -1,29 +1,47 @@
 import React from 'react'
 import { useState } from 'react'
 import {Link} from 'react-router-dom'
+import { useContext } from 'react'
+import { MrParkerDataContext } from '../Context/MrParkerContext'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+
 export const MrParkerRegister = () => {
     const [email, setEmail] = useState('')
-        const [password, setpassword] = useState('')
-        const [Firstname, setFirstname] = useState('')
-        const [Lastname, setLastname] = useState('')
-        const [UserData, setUserData] = useState({})
+        const [password, setPassword] = useState('')
+        const [firstname, setFirstname] = useState('')
+        const [lastname, setLastname] = useState('')
+
+        const {MrParker, setMrParker} = useContext(MrParkerDataContext)
+        const navigate = useNavigate()
     
-        const submitHandler = (e) => {
+        const submitHandler = async (e) => {
             e.preventDefault()
     
-            setUserData({
-                fullName:{
-                    Firstname:Firstname,
-                Lastname:Lastname,
+            const newMrParker = {
+                fullname:{
+                    firstname:firstname,
+            lastname:lastname,
                 },
                 email:email,
                 password:password
-            })
+            }
+            
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/mrparkers/register`,newMrParker)
+
+            if (response.status===201)
+            {
+                const data = response.data
+                setMrParker(data.MrParker)
+                localStorage.setItem('token',data.token)    
+                navigate('/mrparker-home')
+
+            }
+
             setFirstname('')
             setLastname('')
             setEmail('')
-            setpassword('')
-            console.log(UserData)
+            setPassword('')
         }
   return (
     <div className='px-5 py-5 h-screen flex flex-col justify-between'>
@@ -39,14 +57,14 @@ export const MrParkerRegister = () => {
                     className='bg-[#eeeeee] rounded px-4 py-2 border w-1/2 text-lg placeholder:text-base'
                     type="text" 
                     placeholder="First name" 
-                    value={Firstname}
+                    value={firstname}
                     onChange={(e) => setFirstname(e.target.value)}
                     />
                     <input 
                     className='bg-[#eeeeee]  rounded px-4 py-2 border w-1/2 text-lg placeholder:text-base'
                     type="text" 
                     placeholder="Last name"
-                    value={Lastname}
+                    value={lastname}
                     onChange={(e) => setLastname(e.target.value)} 
                     />
                     </div>
@@ -66,7 +84,7 @@ export const MrParkerRegister = () => {
                     type="password" 
                     placeholder="Enter your password" 
                     value={password}
-                    onChange={(e) => setpassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                     />
                     <button className='bg-[#111] text-white font-semibold mb-2 rounded px-4 py-2  w-full text-lg'>Register</button>
                     <p className='text-center'>Already have an account? <Link to='/mrparker-login' className='text-blue-600'>Login here</Link></p>

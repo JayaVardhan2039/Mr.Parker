@@ -302,7 +302,7 @@ Example:
 ## MrParker Registration Endpoint
 
 ### Endpoint
-`POST /mrparker/register`
+`POST /mrparkers/register`
 
 ### Description
 This endpoint is used to register a new MrParker. It requires the MrParker's first name, last name, email, and password.
@@ -388,7 +388,7 @@ Example:
 ## MrParker Login Endpoint
 
 ### Endpoint
-`POST /mrparker/login`
+`POST /mrparkers/login`
 
 ### Description
 This endpoint is used to log in an existing MrParker. It requires the MrParker's email and password.
@@ -474,7 +474,7 @@ Example:
 ## MrParker Profile Endpoint
 
 ### Endpoint
-`GET /mrparker/profile`
+`GET /mrparkers/profile`
 
 ### Description
 This endpoint is used to retrieve the profile of the authenticated MrParker.
@@ -525,7 +525,7 @@ Example:
 ## MrParker Logout Endpoint
 
 ### Endpoint
-`GET /mrparker/logout`
+`GET /mrparkers/logout`
 
 ### Description
 This endpoint is used to log out the authenticated MrParker and blacklist the JWT token.

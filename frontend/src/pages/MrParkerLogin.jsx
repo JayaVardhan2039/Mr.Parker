@@ -1,17 +1,35 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import {MrParkerDataContext} from '../Context/MrParkerContext'
+import { useContext } from 'react'
+
 export const MrParkerLogin = () => {
     const [email, setEmail] = useState('')
         const [password, setpassword] = useState('')
-        const [UserData, setUserData] = useState({})
-        const submitHandler = (e) => {
+
+        const { MrParker, setMrParker } = useContext(MrParkerDataContext)
+        const navigate = useNavigate()
+        
+
+        const submitHandler = async(e) => {
             e.preventDefault()
-            setUserData({
+            const MrParkerr={
                 email:email,
                 password:password
-            })
-            console.log(UserData)
+            }
+
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/mrparkers/login`,MrParkerr)
+
+            if (response.status===200)
+            {
+                const data = response.data
+                setMrParker(data.MrParkerr)
+                localStorage.setItem('token',data.token)
+                navigate('/mrparker-home')
+            }
     
             setEmail('')
             setpassword('')
