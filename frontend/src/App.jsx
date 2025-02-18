@@ -11,12 +11,16 @@ import UserLogout from './pages/UserLogout'
 import MrParkerHome from './pages/MrParkerHome'
 import MrParkerProtectWrapper from './pages/MrParkerProtectWrapper'
 import MrParkerLogout from './pages/MrParkerLogout'
+import Parking from './pages/Parking'
+import MrParkerParking from './pages/MrParkerParking'
 const App = () => {
   return (
     <div>
       <Routes>
         <Route path='/' element={<Start/>} />
         <Route path='/user-login' element={<UserLogin/>} /> 
+        <Route path='/parking' element={<Parking/>} /> 
+        <Route path='/mrparker-parking' element={<MrParkerParking/>} />
         <Route path='/user-register' element={<UserRegister/>} />
         <Route path='/mrparker-login' element={<MrParkerLogin/>} />
         <Route path='/mrparker-register' element={<MrParkerRegister/>} />
