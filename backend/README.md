@@ -568,3 +568,199 @@ Example:
 }
 ```
 
+# Maps Routes Endpoints Documentation
+
+## Get Coordinates Endpoint
+
+### Endpoint
+`GET /maps/get-coordinates`
+
+### Description
+This endpoint retrieves the coordinates (latitude and longitude) for a given address.
+
+### Request Headers
+- `Authorization` (string, required): The JWT token of the authenticated user.
+
+### Query Parameters
+- `address` (string, required): The address to geocode. Must be at least 3 characters long.
+
+### Responses
+
+#### Success
+- **Status Code**: `200 OK`
+- **Response Body**: A JSON object containing the coordinates.
+
+Example:
+```json
+{
+  "ltd": 12.9716,
+  "lng": 77.5946
+}
+```
+
+#### Validation Errors
+- **Status Code**: `400 Bad Request`
+- **Response Body**: A JSON object containing validation error messages.
+
+Example:
+```json
+{
+  "errors": [
+    {
+      "msg": "Address must be at least 3 characters long",
+      "param": "address",
+      "location": "query"
+    }
+  ]
+}
+```
+
+#### Not Found
+- **Status Code**: `404 Not Found`
+- **Response Body**: A JSON object containing an error message.
+
+Example:
+```json
+{
+  "message": "Coordinates not found"
+}
+```
+
+## Get Distance and Time Endpoint
+
+### Endpoint
+`GET /maps/get-distance-time`
+
+### Description
+This endpoint calculates the distance and time between two locations.
+
+### Request Headers
+- `Authorization` (string, required): The JWT token of the authenticated user.
+
+### Query Parameters
+- `origin` (string, required): The starting location. Must be at least 3 characters long.
+- `destination` (string, required): The ending location. Must be at least 3 characters long.
+
+### Responses
+
+#### Success
+- **Status Code**: `200 OK`
+- **Response Body**: A JSON object containing distance and duration information.
+
+Example:
+```json
+{
+  "distance": {
+    "text": "5.2 km",
+    "value": 5200
+  },
+  "duration": {
+    "text": "15 mins",
+    "value": 900
+  }
+}
+```
+
+#### Validation Errors
+- **Status Code**: `400 Bad Request`
+- **Response Body**: A JSON object containing validation error messages.
+
+Example:
+```json
+{
+  "errors": [
+    {
+      "msg": "Origin must be at least 3 characters long",
+      "param": "origin",
+      "location": "query"
+    },
+    {
+      "msg": "Destination must be at least 3 characters long",
+      "param": "destination",
+      "location": "query"
+    }
+  ]
+}
+```
+
+#### Not Found
+- **Status Code**: `404 Not Found`
+- **Response Body**: A JSON object containing an error message.
+
+Example:
+```json
+{
+  "message": "Internal server error"
+}
+```
+
+## Get Auto-Complete Suggestions Endpoint
+
+### Endpoint
+`GET /maps/get-suggestions`
+
+### Description
+This endpoint provides auto-complete suggestions for location searches.
+
+### Request Headers
+- `Authorization` (string, required): The JWT token of the authenticated user.
+
+### Query Parameters
+- `input` (string, required): The search query. Must be at least 3 characters long.
+
+### Responses
+
+#### Success
+- **Status Code**: `200 OK`
+- **Response Body**: An array of suggestion objects.
+
+Example:
+```json
+[
+  {
+    "description": "Bangalore, Karnataka, India",
+    "place_id": "ChIJbU60yXAWrjsR4E9-UejD3_g",
+    "structured_formatting": {
+      "main_text": "Bangalore",
+      "secondary_text": "Karnataka, India"
+    }
+  },
+  {
+    "description": "Bangalore Railway Station, Bangalore, Karnataka, India",
+    "place_id": "ChIJB1nGyZsWrjsRx_ZGYpWNCjw",
+    "structured_formatting": {
+      "main_text": "Bangalore Railway Station",
+      "secondary_text": "Bangalore, Karnataka, India"
+    }
+  }
+]
+```
+
+#### Validation Errors
+- **Status Code**: `400 Bad Request`
+- **Response Body**: A JSON object containing validation error messages.
+
+Example:
+```json
+{
+  "errors": [
+    {
+      "msg": "Search query must be at least 3 characters long",
+      "param": "input",
+      "location": "query"
+    }
+  ]
+}
+```
+
+#### Server Error
+- **Status Code**: `500 Internal Server Error`
+- **Response Body**: A JSON object containing an error message.
+
+Example:
+```json
+{
+  "message": "Internal server error"
+}
+```
+
