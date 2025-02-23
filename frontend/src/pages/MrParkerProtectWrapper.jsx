@@ -23,8 +23,8 @@ const MrParkerProtectWrapper = ({ children }) => {
         })
         .then(response => {
             if (response.status === 200) {
-                console.log('Profile data fetched successfully:', response.data.mrParker);
-                setMrParker(response.data.mrParker);
+                console.log('Profile data fetched successfully:', response.data);
+                setMrParker(response.data);
                 setIsLoading(false);
             }
         })

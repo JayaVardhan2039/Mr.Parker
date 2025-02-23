@@ -33,7 +33,15 @@ const MrParkerschema=new mongoose.Schema({
         type:String,
         enum: ['active','inactive'],
         default:'inactive',
-    }
+    },
+    location:{
+        ltd:{
+            type: Number,
+        },
+        lng:{
+            type: Number,
+        },
+    },
     })
 
 MrParkerschema.methods.generateAuthToken = function(){

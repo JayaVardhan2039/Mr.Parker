@@ -28,10 +28,10 @@ const MrParkerHome = () => {
     <div className='h-screen'>
 
       <div>
-        <img src="" alt="" />
+        {/* Removed empty image element */}
         <Link to='/mrparker-login' className='fixed right-2 top-2 h-10 w-10 bg-white flex items-center k justify-center rounded-full'>
-        <i className="text-lg font-medium ri-logout-box-r-line"></i>
-      </Link>
+          <i className="text-lg font-medium ri-logout-box-r-line"></i>
+        </Link>
       </div>
       <div className='h-3/5'>
         <img className="h-full w-full object-cover" src="https://miro.medium.com/max/1280/0*gwMx05pqII5hbfmX.gif"></img>
