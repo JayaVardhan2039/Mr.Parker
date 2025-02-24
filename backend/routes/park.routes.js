@@ -11,14 +11,14 @@ router.post('/create',
     body('vehicleType').isIn(['car', 'motorcycle', 'bicycle', 'bike']).withMessage('Invalid Vehicle Type'),
     parkController.createPark
 );
-
-{/*router.get('/get-fare',
+ 
+router.get('/get-fare',
     authMiddleware.authUser,
     query('pickup').isString().isLength({ min: 3 }).withMessage('Invalid Pickup Address'),
     query('destination').isString().isLength({ min: 3 }).withMessage('Invalid Destination Address'),
     parkController.getFare
 );
-
+{/*
 router.post('/confirm',
     authMiddleware.authMrParker,
     body('parkId').isMongoId().withMessage('Invalid Park Id'),

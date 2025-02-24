@@ -13,20 +13,23 @@ const ConfirmPark = (props) => {
             <div><h3 className='text-lg font-medium'>
               562/11-A
             </h3>
-              <p className='text-sm -mt-1 text-gray-600'>Kankariya Talab,Ahmedabad</p>
+              <p className='text-sm -mt-1 text-gray-600'>{props.pickup}</p>
             </div>
           </div>
           <div className='flex items-center gap-5 p-3'>
             <i className="text-lg ri-money-rupee-circle-line"></i>
             <div><h3 className='text-lg font-medium'>
-              Rupees 193.20
+              Rupees {props.fare[props.vehicleType]}
             </h3>
               <p className='text-sm -mt-1 text-gray-600'>Cash Cash</p>
             </div>
           </div>
         </div>
-        <button onClick={()=>{props.setVehicleParkFound(true) 
-          props.setConfirmParkPanel(false)}} className='w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg'>Confirm</button>
+        <button onClick={() => {
+          props.setVehicleParkFound(true)
+          props.setConfirmParkPanel(false);
+          props.createPark()
+        }} className='w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg'>Confirm</button>
       </div>
     </div>
   )

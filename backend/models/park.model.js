@@ -9,7 +9,7 @@ const parkSchema = new mongoose.Schema({
     },
     mrparker: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'MrParker',
+        ref: 'MrParker', 
     },
     pickup: {
         type: String,

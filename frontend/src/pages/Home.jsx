@@ -20,10 +20,13 @@ const Home = () => {
   const [confirmParkPanel, setConfirmParkPanel] = useState(false)
   const [vehicleParkFound, setVehicleParkFound] = useState(false)
   const [waitingForMrParker, setWaitingForMrParker] = useState(false)
+  const [vehicleType, setVehicleType] = useState(null)
+  const [fare, setFare] = useState({})
   const vehiclePanelRef = useRef(null)
   const vehicleFoundRef = useRef(null)
   const confirmParkPanelRef = useRef(null)
   const waitingForMrParkerRef = useRef(null)
+
   const submitHandler = (e) => {
     e.preventDefault()
   }
@@ -92,13 +95,36 @@ const Home = () => {
     }
   }, [waitingForMrParker])
 
-  function findPark()
+  async function findPark()
   {
     setVehiclePanel(true)
     setPanelOpen(false)
 
-  }
+    const response = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/parks/get-fare`,
+      {
+        params: { pickup: pickup, destination: 'vizag' },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      setFare(response.data)
+      console.log(response.data)
 
+  }
+  async function createPark() {
+    
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/parks/create`, {
+      pickup: pickup,
+      destination: 'vizag',
+      vehicleType: vehicleType
+  }, {
+      headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+  });
+    console.log(response.data);
+}
 
   return (
     <div className='h-screen relative overflow-hidden'>
@@ -137,13 +163,13 @@ const Home = () => {
           </div>
       </div>
       <div ref={vehiclePanelRef} className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-12">
-        <VehicleComponents setConfirmParkPanel={setConfirmParkPanel} setVehiclePanel={setVehiclePanel} />
+        <VehicleComponents setVehicleType={setVehicleType} fare={fare} setConfirmParkPanel={setConfirmParkPanel} setVehiclePanel={setVehiclePanel} />
       </div>
       <div ref={confirmParkPanelRef} className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12">
-        <ConfirmPark setConfirmParkPanel={setConfirmParkPanel} setVehicleParkFound={setVehicleParkFound} />
+        <ConfirmPark pickup={pickup} fare={fare} vehicleType={vehicleType} createPark={createPark} setConfirmParkPanel={setConfirmParkPanel} setVehicleParkFound={setVehicleParkFound} />
       </div>
       <div ref={vehicleFoundRef} className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12">
-        <LookingForMrPaker setVehicleParkFound={setVehicleParkFound} />
+        <LookingForMrPaker pickup={pickup} fare={fare} vehicleType={vehicleType} setVehicleParkFound={setVehicleParkFound} />
       </div>
       <div ref={waitingForMrParkerRef} className="fixed w-full z-10 bottom-0  bg-white px-3 py-6 pt-12">
         <WaitingForMrParker waitingForMrParker={waitingForMrParker} />
