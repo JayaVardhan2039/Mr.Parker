@@ -8,9 +8,11 @@ import VehicleComponents from '../components/VehicleComponents'
 import ConfirmPark from '../components/ConfirmPark'
 import LookingForMrPaker from '../components/LookingForMrPaker'
 import WaitingForMrParker from '../components/WaitingForMrParker'
+import axios from 'axios'
 
 const Home = () => {
   const [pickup, setPickup] = useState('')
+  const [pickupSuggestions, setPickupSuggestions] = useState([])
   const [panelOpen, setPanelOpen] = useState(false)
   const panelRef = useRef(null)
   const panelCloseRef = useRef(null)
@@ -25,6 +27,29 @@ const Home = () => {
   const submitHandler = (e) => {
     e.preventDefault()
   }
+  const handlePickupChange = async (e) => {
+    const value = e.target.value;
+    setPickup(value);
+    if (value.length >= 3) {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}/maps/get-suggestions`,
+          {
+            params: { input: value },
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+          }
+        );
+        setPickupSuggestions(response.data);
+      } catch (error) {
+        console.error('Error fetching suggestions:', error);
+        setPickupSuggestions([]);
+      }
+    } else {
+      setPickupSuggestions([]);
+    }
+  };
   useGSAP(() => {
     if (panelOpen) {
       gsap.to(panelRef.current, { height: '80%', padding: '20px' })
@@ -58,6 +83,7 @@ const Home = () => {
       gsap.to(vehicleFoundRef.current, { transform: 'translateY(100%)' })
     }
   }, [vehicleParkFound])
+
   useGSAP(() => {
     if (waitingForMrParker) {
       gsap.to(waitingForMrParkerRef.current, { transform: 'translateY(0%)' })
@@ -66,6 +92,12 @@ const Home = () => {
     }
   }, [waitingForMrParker])
 
+  function findPark()
+  {
+    setVehiclePanel(true)
+    setPanelOpen(false)
+
+  }
 
 
   return (
@@ -89,16 +121,20 @@ const Home = () => {
             <input
               onClick={() => setPanelOpen(true)}
               value={pickup}
-              onChange={(e) => setPickup(e.target.value)}
+              onChange={handlePickupChange}
               className='bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-3'
               type="text"
               placeholder="Add a pickup Location"
             ></input>
           </form>
+          <button onClick={findPark} className='bg-black text-white px-4 py-2 rounded-lg mt-3 w-full'>
+            Find a Parker
+          </button>
+          
         </div>
         <div ref={panelRef} className=' bg-white h-0'>
-          <LocationSearchPanel setPanelOpen={setPanelOpen} setVehiclePanel={setVehiclePanel} />
-        </div>
+            <LocationSearchPanel setPanelOpen={setPanelOpen}  setVehiclePanel={setVehiclePanel} pickupSuggestions={pickupSuggestions} setPickup={setPickup}/>
+          </div>
       </div>
       <div ref={vehiclePanelRef} className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-12">
         <VehicleComponents setConfirmParkPanel={setConfirmParkPanel} setVehiclePanel={setVehiclePanel} />
