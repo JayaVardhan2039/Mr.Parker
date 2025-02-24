@@ -62,3 +62,13 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
     }
 }
 
+module.exports.getMrParkersInTheRadius = async (ltd,lng, radius) => {
+    const mrParkers = await mrParkerModel.find({
+        location: {
+            $geoWithin: {
+                $centerSphere: [[ltd, lng], radius / 6371]
+            }
+        }
+    });
+    return mrParkers;
+}

@@ -1,5 +1,7 @@
 const parkService = require('../services/park.service');
 const { validationResult } = require('express-validator');
+const mapService = require('../services/maps.service');
+const { sendMessageToSocketId } = require('../socket.js');
 
 module.exports.createPark = async (req, res) => {
     const errors = validationResult(req);
@@ -10,11 +12,21 @@ module.exports.createPark = async (req, res) => {
     const { userId, pickup, destination, vehicleType } = req.body;
 
     try {
-        if (!req.user) {
-            return res.status(401).json({ message: 'Unauthorized - User not found' });
-        }
         const park = await parkService.createPark({ user: req.user._id, pickup, destination ,vehicleType });
         res.status(201).json(park);
+
+        const pickupCoordinates=await mapService.getAddressCoordinate(pickup);
+
+        const mrParkersInRadius=await mapService.getMrParkersInTheRadius(pickupCoordinates.ltd,pickupCoordinates.lng,2000);
+        park.otp=''
+
+        mrParkersInRadius.map(mrparker=>{
+            sendMessageToSocketId(mrparker.socketId, { event: 'new-park', data:park });
+        });
+
+
+
+        
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

@@ -764,3 +764,148 @@ Example:
 }
 ```
 
+# Park Endpoints Documentation
+
+## Create Park Endpoint
+
+### Endpoint
+`POST /parks/create`
+
+### Description
+This endpoint is used to create a new park request. It requires the pickup address, destination address, and vehicle type.
+
+### Request Body
+The request body should be a JSON object containing the following fields:
+- `pickup` (string, required): The pickup address. Must be at least 3 characters long.
+- `destination` (string, required): The destination address. Must be at least 3 characters long.
+- `vehicleType` (string, required): The type of the vehicle. Must be one of ['car', 'motorcycle', 'bicycle', 'bike'].
+
+Example:
+```json
+{
+  "pickup": "123 Main St",
+  "destination": "456 Elm St",
+  "vehicleType": "car"
+}
+```
+
+### Responses
+
+#### Success
+- **Status Code**: `201 Created`
+- **Response Body**: A JSON object containing the park details.
+
+Example:
+```json
+{
+  "_id": "park_id",
+  "user": "user_id",
+  "pickup": "123 Main St",
+  "destination": "456 Elm St",
+  "vehicleType": "car",
+  "status": "pending",
+  "fare": 100
+}
+```
+
+#### Validation Errors
+- **Status Code**: `400 Bad Request`
+- **Response Body**: A JSON object containing an array of validation error messages.
+
+Example:
+```json
+{
+  "errors": [
+    {
+      "msg": "Invalid Pickup Address",
+      "param": "pickup",
+      "location": "body"
+    },
+    {
+      "msg": "Invalid Destination Address",
+      "param": "destination",
+      "location": "body"
+    },
+    {
+      "msg": "Invalid Vehicle Type",
+      "param": "vehicleType",
+      "location": "body"
+    }
+  ]
+}
+```
+
+#### Server Errors
+- **Status Code**: `500 Internal Server Error`
+- **Response Body**: A JSON object containing an error message.
+
+Example:
+```json
+{
+  "error": "Internal Server Error"
+}
+```
+
+## Get Fare Endpoint
+
+### Endpoint
+`GET /parks/get-fare`
+
+### Description
+This endpoint is used to get the fare estimate for a park request. It requires the pickup address and destination address.
+
+### Query Parameters
+- `pickup` (string, required): The pickup address. Must be at least 3 characters long.
+- `destination` (string, required): The destination address. Must be at least 3 characters long.
+
+Example:
+```
+GET /parks/get-fare?pickup=123%20Main%20St&destination=456%20Elm%20St
+```
+
+### Responses
+
+#### Success
+- **Status Code**: `200 OK`
+- **Response Body**: A JSON object containing the fare estimate.
+
+Example:
+```json
+{
+  "fare": 100
+}
+```
+
+#### Validation Errors
+- **Status Code**: `400 Bad Request`
+- **Response Body**: A JSON object containing an array of validation error messages.
+
+Example:
+```json
+{
+  "errors": [
+    {
+      "msg": "Invalid Pickup Address",
+      "param": "pickup",
+      "location": "query"
+    },
+    {
+      "msg": "Invalid Destination Address",
+      "param": "destination",
+      "location": "query"
+    }
+  ]
+}
+```
+
+#### Server Errors
+- **Status Code**: `500 Internal Server Error`
+- **Response Body**: A JSON object containing an error message.
+
+Example:
+```json
+{
+  "error": "Internal Server Error"
+}
+```
+
