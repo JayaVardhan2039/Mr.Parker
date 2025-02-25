@@ -18,11 +18,11 @@ router.get('/get-fare',
     query('destination').isString().isLength({ min: 3 }).withMessage('Invalid Destination Address'),
     parkController.getFare
 );
-{/*
+
 router.post('/confirm',
     authMiddleware.authMrParker,
     body('parkId').isMongoId().withMessage('Invalid Park Id'),
     parkController.confirmPark
-);*/}
+);
 
 module.exports = router;

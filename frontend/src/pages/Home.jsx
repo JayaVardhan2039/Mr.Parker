@@ -139,7 +139,12 @@ const Home = () => {
     console.log(response.data)
   }
 
-  
+  socket.on('park-confirmed', (park) => {
+    console.log(park)
+    setVehiclePanel(false)
+    setVehicleParkFound(false)
+    setWaitingForMrParker(true)
+  })
 
 
   return (

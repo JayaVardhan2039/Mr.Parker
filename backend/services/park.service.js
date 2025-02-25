@@ -49,3 +49,26 @@ module.exports.createPark = async ({ user, pickup,destination,vehicleType }) => 
 
     return park;
 };  
+
+module.exports.confirmPark = async ({parkId,mrparker}) => {
+    if (!parkId) {
+        throw new Error('Park Id is required');
+    }
+
+    console.log('parkId', parkId);
+    console.log('mrparker', mrparker);
+
+    await parkModel.findOneAndUpdate({ _id
+        : parkId }, { status: 'accepted',
+            mrparker:mrparker._id 
+         });
+
+    const park = await parkModel.findOne
+    ({ _id: parkId }).populate('user');
+
+    if (!park) {
+        throw new Error('Park not found');
+    }
+    
+    return park;
+}

@@ -9,6 +9,7 @@ import { MrParkerDataContext } from '../Context/MrParkerContext'
 import { useContext } from 'react'
 import { SocketContext } from '../Context/SocketContext'
 import { useEffect } from 'react'
+import axios from 'axios'
 
 const MrParkerHome = () => {
   const [parkPopUpPanel, setParkPopUpPanel] = useState(false)
@@ -17,6 +18,7 @@ const MrParkerHome = () => {
   const parkPopUpPanelRef = useRef(null)
   const confirmParkPopUpPanelRef = useRef(null)
   const { socket } = useContext(SocketContext)
+  const [park,setPark] = useState(null)
 
 
   useEffect(() => {
@@ -45,9 +47,27 @@ const MrParkerHome = () => {
   })
 
   socket.on('new-park', (data) => {
-    console.log(data)
+    console.log(data._id,mrParker)
+    setPark(data)
     setParkPopUpPanel(true)
   })
+
+
+  async function confirmPark(){
+       
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/parks/confirm`, {
+        parkId: park._id,
+        mrparker:mrParker._id
+      },{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+
+
+       setParkPopUpPanel(false)
+       setConfirmParkPopUpPanel(true)
+  }
 
   useGSAP(() => {
     if (parkPopUpPanel) {
@@ -82,7 +102,10 @@ const MrParkerHome = () => {
         <MrParkerDetails />
       </div>
       <div ref={parkPopUpPanelRef} className="fixed w-full z-10 translate-y-full bottom-0 bg-white px-3 py-12">
-        <ParkPopUp setParkPopUpPanel={setParkPopUpPanel} setConfirmParkPopUpPanel={setConfirmParkPopUpPanel} />
+        <ParkPopUp 
+        park={park}
+        setParkPopUpPanel={setParkPopUpPanel} setConfirmParkPopUpPanel={setConfirmParkPopUpPanel}
+        confirmPark={confirmPark} />
       </div>
       <div ref={confirmParkPopUpPanelRef} className="fixed w-full h-screen z-10 translate-y-full bottom-0 bg-white px-3 py-12">
         <ConfirmParkPopUp setConfirmParkPopUpPanel={setConfirmParkPopUpPanel} setParkPopUpPanel={setParkPopUpPanel} />
