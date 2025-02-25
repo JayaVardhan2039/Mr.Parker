@@ -10,7 +10,7 @@ const FinishParking = (props) => {
         <div className='flex items-center gap-3'>
         <img className='h-12 w-12 rounded-full object-cover' src="https://tse4.mm.bing.net/th?id=OIP.I3bHrPM06IgZd93C91B2sgHaFj&pid=Api&P=0&h=180" alt="" />
         <h2 className='text-xl font-medium'>
-            Jaya vardhan    
+            {props.park?.user.fullname.firstname}    
         </h2>
         </div>
         <h5 className='text-lg font-semibold'>2.2 km</h5>
@@ -22,13 +22,13 @@ const FinishParking = (props) => {
             <div><h3 className='text-lg font-medium'>
               562/11-A
             </h3>
-              <p className='text-sm -mt-1 text-gray-600'>Kankariya Talab,Ahmedabad</p>
+              <p className='text-sm -mt-1 text-gray-600'>{props.park?.pickup}</p>
             </div>
           </div>
           <div className='flex items-center gap-5 p-3'>
             <i className="text-lg ri-money-rupee-circle-line"></i>
             <div><h3 className='text-lg font-medium'>
-              Rupees 193.20
+              Rupees {props.park?.fare}
             </h3>
               <p className='text-sm -mt-1 text-gray-600'>Cash Cash</p>
             </div>
@@ -40,7 +40,7 @@ const FinishParking = (props) => {
         }}>
             <input type="text" 
             className='bg-[#eee] px-6 py-4 font-mono text-lg rounded-lg w-full mt-3'  placeholder='Enter OTP'/>
-        <Link to='/mrparker-home' onClick={()=>{}} className='w-full mt-5 flex justify-center bg-green-600 text-white font-semibold p-3 rounded-lg'>complete Pickup</Link>
+        <Link to='/mrparker-home' onClick={()=>{}} className='w-full mt-5 flex justify-center bg-green-600 text-white font-semibold p-3 rounded-lg'>complete Handover</Link>
         
        
         </form>

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import FinishParking from '../components/FinishParking'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
@@ -7,6 +7,8 @@ import { useGSAP } from '@gsap/react'
 const MrParkerParking = () => {
   const [finishParkPanel, setFinishParkPanel] = useState(false)
   const finishParkPanelRef=useRef(null)
+  const location = useLocation();
+  const parkData = location.state?.park
   useGSAP(() => {
     if(finishParkPanel){
       gsap.to(finishParkPanelRef.current, {transform: 'translateY(0%)'})
@@ -29,12 +31,12 @@ const MrParkerParking = () => {
       </div>
       <div className='h-1/5 p-6 flex items-center justify-between relative' onClick={()=>{setFinishParkPanel(true)}}>
       <h5 className='p-1 text-center absolute w-[90%] top-0' onClick={() => {}}><i className="text-3xl text-gray-400 ri-arrow-up-wide-line"></i></h5>
-      <h4 className='text-xl font-semibold'>4km away</h4>
-      <button className=' bg-gray-300 text-gray-700 font-semibold p-3 px-12 rounded-lg'>Complete Pickup</button>
+      
+      <button className=' bg-gray-300 text-gray-700 font-semibold p-3 px-12 rounded-lg'>Complete Parking</button>
 
         </div>
         <div ref={finishParkPanelRef} className="fixed w-full h-screen z-10 translate-y-full bottom-0 bg-white px-3 py-12">
-          <FinishParking setFinishParkPanel={setFinishParkPanel}/>
+          <FinishParking park={parkData} setFinishParkPanel={setFinishParkPanel}/>
         </div>  
         
     </div>

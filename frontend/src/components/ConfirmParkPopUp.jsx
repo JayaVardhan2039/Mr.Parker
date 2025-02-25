@@ -27,7 +27,7 @@ const ConfirmParkPopUp = (props) => {
     if(response.status===200){
         props.setConfirmParkPopUpPanel(false)
         props.setParkPopUpPanel(false)
-        navigate('/mrparker-parking')
+        navigate('/mrparker-parking', { state: { park: props.park } })
     }
 
 

@@ -151,8 +151,8 @@ const Home = () => {
   })
 
   socket.on('park-started', (park) => {
-    setWaitingForMrParker(false)
-    navigate('/parking')
+    setWaitingForMrParker(false);
+    navigate('/parking', { state: {park} });
   })
 
 
@@ -257,7 +257,7 @@ const Home = () => {
         <WaitingForMrParker
          park={park}
          setVehicleParkFound={setVehicleParkFound}
-          setWaitingForMrParker={setWaitingForMrParker}
+         setWaitingForMrParker={setWaitingForMrParker}
          waitingForMrParker={waitingForMrParker} />
       </div>
     </div>
