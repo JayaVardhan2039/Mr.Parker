@@ -33,6 +33,7 @@ const Home = () => {
   const destination = 'vizag'
   const { socket } = useContext(SocketContext)
   const {user} = useContext(UserDataContext)
+  const [park,setPark] = useState(null)
 
   useEffect(() => {
     socket.emit('join', { userId: user._id, userType: 'user' })
@@ -141,6 +142,7 @@ const Home = () => {
 
   socket.on('park-confirmed', (park) => {
     console.log(park)
+    setPark(park)
     setVehiclePanel(false)
     setVehicleParkFound(false)
     setWaitingForMrParker(true)
@@ -245,7 +247,11 @@ const Home = () => {
         ref={waitingForMrParkerRef}
         className='fixed w-full z-10 bottom-0  bg-white px-3 py-6 pt-12'
       >
-        <WaitingForMrParker waitingForMrParker={waitingForMrParker} />
+        <WaitingForMrParker
+         park={park}
+         setVehicleParkFound={setVehicleParkFound}
+          setWaitingForMrParker={setWaitingForMrParker}
+         waitingForMrParker={waitingForMrParker} />
       </div>
     </div>
   )

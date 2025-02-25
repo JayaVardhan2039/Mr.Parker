@@ -64,7 +64,7 @@ module.exports.confirmPark = async ({parkId,mrparker}) => {
          });
 
     const park = await parkModel.findOne
-    ({ _id: parkId }).populate('user');
+    ({ _id: parkId }).populate('user').populate('mrparker').select('+otp');
 
     if (!park) {
         throw new Error('Park not found');

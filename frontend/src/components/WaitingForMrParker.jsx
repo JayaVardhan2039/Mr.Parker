@@ -9,10 +9,11 @@ const WaitingForMrParker = (props) => {
         <img className="h-14" src="https://www.pngplay.com/wp-content/uploads/8/Uber-PNG-Photos.png" alt="vscd" />
         <div className='text-right'>
           <h2 className='text-lg font-medium'>
-            Jaya
+            {props.park?.mrparker.fullname.firstname} {props.park?.mrparker.fullname.lastname}
           </h2>
-          <h4 className='text-xl font-semibold -mt-1 -mb-1'>AB02 AS 0554</h4>
+          <h4 className='text-xl font-semibold -mt-1 -mb-1'>{ props.park?.user.vehicle.plate }</h4>
           <p className='text-sm text-gray-600'>Maruti suzuki Alto</p>
+          <h1 className='text-lg font-semibold'>{props.park?.otp}</h1>
         </div>
       </div>
 
@@ -24,13 +25,13 @@ const WaitingForMrParker = (props) => {
             <div><h3 className='text-lg font-medium'>
               562/11-A
             </h3>
-              <p className='text-sm -mt-1 text-gray-600'>Kankariya Talab,Ahmedabad</p>
+              <p className='text-sm -mt-1 text-gray-600'>{props.park?.pickup}</p>
             </div>
           </div>
           <div className='flex items-center gap-5 p-3'>
             <i className="text-lg ri-money-rupee-circle-line"></i>
             <div><h3 className='text-lg font-medium'>
-              Rupees 193.20
+              Rupees {props.park?.fare}
             </h3>
               <p className='text-sm -mt-1 text-gray-600'>Cash Cash</p>
             </div>
