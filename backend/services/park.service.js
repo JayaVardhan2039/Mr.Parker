@@ -1,4 +1,5 @@
 const parkModel = require('../models/park.model');
+const { sendMessageToSocketId } = require('../socket');
 const mapService = require('./maps.service');
 const crypto = require('crypto');
 
@@ -70,5 +71,32 @@ module.exports.confirmPark = async ({parkId,mrparker}) => {
         throw new Error('Park not found');
     }
     
+    return park;
+}
+
+module.exports.startPark = async ({ parkId, otp, mrparker }) => {
+    if (!parkId || !otp) {
+        throw new Error('Park Id and OTP are required');
+    }
+
+    const park = await parkModel.findOne({ _id: parkId }).populate('user').populate('mrparker').select('+otp');
+    
+    if(!park){
+        throw new Error('Park not found');
+    }
+    if(park.status!=='accepted'){
+        throw new Error('Park is not accepted');
+    }
+    if(park.otp!==otp){
+        throw new Error('Invalid OTP');
+    }
+
+    await parkModel.findOneAndUpdate({ _id:parkId }, { status: 'ongoing' });
+
+    sendMessageToSocketId(park.user.socketId, {
+        event: 'park-started',
+        data: park
+    });
+
     return park;
 }

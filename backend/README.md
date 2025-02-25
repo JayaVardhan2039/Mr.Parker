@@ -909,3 +909,181 @@ Example:
 }
 ```
 
+## Confirm Park Endpoint
+
+### Endpoint
+`POST /parks/confirm`
+
+### Description
+This endpoint is used to confirm a park request by a MrParker. It requires the park ID.
+
+### Request Body
+The request body should be a JSON object containing the following field:
+- `parkId` (string, required): The ID of the park request. Must be a valid MongoDB ObjectId.
+
+Example:
+```json
+{
+  "parkId": "60d21b4667d0d8992e610c85"
+}
+```
+
+### Responses
+
+#### Success
+- **Status Code**: `200 OK`
+- **Response Body**: A JSON object containing the confirmed park details.
+
+Example:
+```json
+{
+  "_id": "60d21b4667d0d8992e610c85",
+  "user": {
+    "_id": "user_id",
+    "fullname": {
+      "firstname": "Jaya",
+      "lastname": "Vardhan"
+    },
+    "email": "jaya.vardhan@example.com",
+    "vehicle": {
+      "color": "Red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  },
+  "mrparker": {
+    "_id": "mrparker_id",
+    "fullname": {
+      "firstname": "Parker",
+      "lastname": "Smith"
+    },
+    "email": "parker.smith@example.com"
+  },
+  "pickup": "123 Main St",
+  "destination": "456 Elm St",
+  "vehicleType": "car",
+  "status": "accepted",
+  "fare": 100,
+  "otp": 123456
+}
+```
+
+#### Validation Errors
+- **Status Code**: `400 Bad Request`
+- **Response Body**: A JSON object containing an array of validation error messages.
+
+Example:
+```json
+{
+  "errors": [
+    {
+      "msg": "Invalid Park Id",
+      "param": "parkId",
+      "location": "body"
+    }
+  ]
+}
+```
+
+#### Server Errors
+- **Status Code**: `500 Internal Server Error`
+- **Response Body**: A JSON object containing an error message.
+
+Example:
+```json
+{
+  "error": "Internal Server Error"
+}
+```
+
+## Start Park Endpoint
+
+### Endpoint
+`GET /parks/start-park`
+
+### Description
+This endpoint is used to start a park request by a MrParker. It requires the park ID and OTP.
+
+### Query Parameters
+- `parkId` (string, required): The ID of the park request. Must be a valid MongoDB ObjectId.
+- `otp` (number, required): The OTP for the park request. Must be a 6-digit number.
+
+Example:
+```
+GET /parks/start-park?parkId=60d21b4667d0d8992e610c85&otp=123456
+```
+
+### Responses
+
+#### Success
+- **Status Code**: `200 OK`
+- **Response Body**: A JSON object containing the started park details.
+
+Example:
+```json
+{
+  "_id": "60d21b4667d0d8992e610c85",
+  "user": {
+    "_id": "user_id",
+    "fullname": {
+      "firstname": "Jaya",
+      "lastname": "Vardhan"
+    },
+    "email": "jaya.vardhan@example.com",
+    "vehicle": {
+      "color": "Red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  },
+  "mrparker": {
+    "_id": "mrparker_id",
+    "fullname": {
+      "firstname": "Parker",
+      "lastname": "Smith"
+    },
+    "email": "parker.smith@example.com"
+  },
+  "pickup": "123 Main St",
+  "destination": "456 Elm St",
+  "vehicleType": "car",
+  "status": "ongoing",
+  "fare": 100
+}
+```
+
+#### Validation Errors
+- **Status Code**: `400 Bad Request`
+- **Response Body**: A JSON object containing an array of validation error messages.
+
+Example:
+```json
+{
+  "errors": [
+    {
+      "msg": "Invalid Park Id",
+      "param": "parkId",
+      "location": "query"
+    },
+    {
+      "msg": "Invalid OTP",
+      "param": "otp",
+      "location": "query"
+    }
+  ]
+}
+```
+
+#### Server Errors
+- **Status Code**: `500 Internal Server Error`
+- **Response Body**: A JSON object containing an error message.
+
+Example:
+```json
+{
+  "error": "Internal Server Error"
+}
+```
+

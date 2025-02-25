@@ -18,7 +18,7 @@ const MrParkerHome = () => {
   const parkPopUpPanelRef = useRef(null)
   const confirmParkPopUpPanelRef = useRef(null)
   const { socket } = useContext(SocketContext)
-  const [park,setPark] = useState(null)
+  const [park, setPark] = useState(null)
 
 
   useEffect(() => {
@@ -27,46 +27,46 @@ const MrParkerHome = () => {
 
     const updateLocation = () => {
       if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(position => {
-              
-              socket.emit('update-location-mrparker', {
-                  userId: mrParker._id,
-                  location: {
-                      ltd: position.coords.latitude,
-                      lng: position.coords.longitude
-                  }
-              })
+        navigator.geolocation.getCurrentPosition(position => {
+
+          socket.emit('update-location-mrparker', {
+            userId: mrParker._id,
+            location: {
+              ltd: position.coords.latitude,
+              lng: position.coords.longitude
+            }
           })
+        })
       }
-  }
+    }
 
-  const locationInterval = setInterval(updateLocation, 10000)
-  updateLocation()
+    const locationInterval = setInterval(updateLocation, 10000)
+    updateLocation()
 
-  // return () => clearInterval(locationInterval)
+    // return () => clearInterval(locationInterval)
   })
 
   socket.on('new-park', (data) => {
-    console.log(data._id,mrParker)
+    console.log(data._id, mrParker)
     setPark(data)
     setParkPopUpPanel(true)
   })
 
 
-  async function confirmPark(){
-       
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/parks/confirm`, {
-        parkId: park._id,
-        mrparker:mrParker._id
-      },{
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      })
+  async function confirmPark() {
+
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/parks/confirm`, {
+      parkId: park._id,
+      mrparker: mrParker._id
+    }, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
 
 
-       setParkPopUpPanel(false)
-       setConfirmParkPopUpPanel(true)
+    setParkPopUpPanel(false)
+    setConfirmParkPopUpPanel(true)
   }
 
   useGSAP(() => {
@@ -102,13 +102,15 @@ const MrParkerHome = () => {
         <MrParkerDetails />
       </div>
       <div ref={parkPopUpPanelRef} className="fixed w-full z-10 translate-y-full bottom-0 bg-white px-3 py-12">
-        <ParkPopUp 
-        park={park}
-        setParkPopUpPanel={setParkPopUpPanel} setConfirmParkPopUpPanel={setConfirmParkPopUpPanel}
-        confirmPark={confirmPark} />
+        <ParkPopUp
+          park={park}
+          setParkPopUpPanel={setParkPopUpPanel} setConfirmParkPopUpPanel={setConfirmParkPopUpPanel}
+          confirmPark={confirmPark} />
       </div>
       <div ref={confirmParkPopUpPanelRef} className="fixed w-full h-screen z-10 translate-y-full bottom-0 bg-white px-3 py-12">
-        <ConfirmParkPopUp setConfirmParkPopUpPanel={setConfirmParkPopUpPanel} setParkPopUpPanel={setParkPopUpPanel} />
+        <ConfirmParkPopUp
+          park={park}
+          setConfirmParkPopUpPanel={setConfirmParkPopUpPanel} setParkPopUpPanel={setParkPopUpPanel} />
       </div>
     </div>
   )

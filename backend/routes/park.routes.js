@@ -25,4 +25,11 @@ router.post('/confirm',
     parkController.confirmPark
 );
 
+router.get('/start-park',
+    authMiddleware.authMrParker,
+    query('parkId').isMongoId().withMessage('Invalid Park Id'),
+    query('otp').isNumeric().isLength({ min: 6, max: 6 }).withMessage('Invalid OTP'),
+    parkController.startPark
+);
+
 module.exports = router;

@@ -1,12 +1,36 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const ConfirmParkPopUp = (props) => {
 
     const [otp, setOtp] = useState('')
-    const submitHandler=(e)=>{
+    const navigate = useNavigate()
+
+
+    const submitHandler = async (e)=>{
     e.preventDefault()
+
+    const response=await axios.get(`${import.meta.env.VITE_BASE_URL}/parks/start-park`,{
+        params:{
+          parkId:props.park._id,
+        otp:parseInt(otp)
+        },
+          headers:{
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+          }
+        
+    })
+
+    if(response.status===200){
+        props.setConfirmParkPopUpPanel(false)
+        props.setParkPopUpPanel(false)
+        navigate('/mrparker-parking')
+    }
+
+
     }
   return (
     <div>
@@ -16,7 +40,7 @@ const ConfirmParkPopUp = (props) => {
         <div className='flex items-center gap-3'>
         <img className='h-12 w-12 rounded-full object-cover' src="https://tse4.mm.bing.net/th?id=OIP.I3bHrPM06IgZd93C91B2sgHaFj&pid=Api&P=0&h=180" alt="" />
         <h2 className='text-xl font-medium'>
-            Jaya vardhan    
+            {props.park?.user.fullname.firstname} {props.park?.user.fullname.lastname}   
         </h2>
         </div>
         <h5 className='text-lg font-semibold'>2.2 km</h5>
@@ -28,13 +52,13 @@ const ConfirmParkPopUp = (props) => {
             <div><h3 className='text-lg font-medium'>
               562/11-A
             </h3>
-              <p className='text-sm -mt-1 text-gray-600'>Kankariya Talab,Ahmedabad</p>
+              <p className='text-sm -mt-1 text-gray-600'>{props.park?.pickup}</p>
             </div>
           </div>
           <div className='flex items-center gap-5 p-3'>
             <i className="text-lg ri-money-rupee-circle-line"></i>
             <div><h3 className='text-lg font-medium'>
-              Rupees 193.20
+              Rupees {props.park?.fare}
             </h3>
               <p className='text-sm -mt-1 text-gray-600'>Cash Cash</p>
             </div>
@@ -46,7 +70,7 @@ const ConfirmParkPopUp = (props) => {
         }}>
             <input value={otp} type="text" onChange={(e)=>setOtp(e.target.value)}
             className='bg-[#eee] px-6 py-4 font-mono text-lg rounded-lg w-full mt-3'  placeholder='Enter OTP'/>
-        <Link to='/mrparker-parking' onClick={()=>{}} className='w-full mt-5 flex justify-center bg-green-600 text-white font-semibold p-3 rounded-lg'>confirm</Link>
+        <button onClick={()=>{}} className='w-full mt-5 flex justify-center bg-green-600 text-white font-semibold p-3 rounded-lg'>confirm</button>
         <button onClick={()=>{props.setConfirmParkPopUpPanel(false)
             props.setParkPopUpPanel(false)
         }} className='w-full mt-1 bg-red-600 text-white font-semibold p-3 rounded-lg'>Cancel</button>

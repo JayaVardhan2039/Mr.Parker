@@ -13,6 +13,7 @@ import { SocketContext } from '../Context/SocketContext'
 import { useContext } from 'react'
 import { UserDataContext } from '../Context/UserContext'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
   const [pickup, setPickup] = useState('')
@@ -34,6 +35,7 @@ const Home = () => {
   const { socket } = useContext(SocketContext)
   const {user} = useContext(UserDataContext)
   const [park,setPark] = useState(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     socket.emit('join', { userId: user._id, userType: 'user' })
@@ -146,6 +148,11 @@ const Home = () => {
     setVehiclePanel(false)
     setVehicleParkFound(false)
     setWaitingForMrParker(true)
+  })
+
+  socket.on('park-started', (park) => {
+    setWaitingForMrParker(false)
+    navigate('/parking')
   })
 
 

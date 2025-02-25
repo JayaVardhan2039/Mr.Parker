@@ -76,3 +76,23 @@ module.exports.confirmPark = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
+
+module.exports.startPark = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    try {
+        const { parkId,otp } = req.query;
+        const park = await parkService.startPark({ parkId,otp:parseInt(otp), mrparker: req.MrParker });
+
+        sendMessageToSocketId(park.user.socketId, {
+            event: 'park-started',
+            data: park
+        });
+
+        res.status(200).json(park);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}
