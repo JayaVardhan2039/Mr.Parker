@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import FinishParking from '../components/FinishParking'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
+import LiveTracking from '../components/LiveTracking'
 
 const MrParkerParking = () => {
   const [finishParkPanel, setFinishParkPanel] = useState(false)
@@ -26,8 +27,7 @@ const MrParkerParking = () => {
       </div>
       
       <div className='h-4/5'>
-        <img className="h-full w-full object-cover" src="https://miro.medium.com/max/1280/0*gwMx05pqII5hbfmX.gif"></img>
-
+        <LiveTracking/>
       </div>
       <div className='h-1/5 p-6 flex items-center justify-between relative' onClick={()=>{setFinishParkPanel(true)}}>
       <h5 className='p-1 text-center absolute w-[90%] top-0' onClick={() => {}}><i className="text-3xl text-gray-400 ri-arrow-up-wide-line"></i></h5>

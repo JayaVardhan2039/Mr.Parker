@@ -10,6 +10,7 @@ import { useContext } from 'react'
 import { SocketContext } from '../Context/SocketContext'
 import { useEffect } from 'react'
 import axios from 'axios'
+import LiveTracking from '../components/LiveTracking'
 
 const MrParkerHome = () => {
   const [parkPopUpPanel, setParkPopUpPanel] = useState(false)
@@ -83,7 +84,7 @@ const MrParkerHome = () => {
   }, [confirmParkPopUpPanel])
   return (
     <div className='h-screen'>
-      <div className="absolute left-5 top-5  bg-white p-3 rounded shadow">
+      <div className="absolute left-5 top-5 z-50 bg-white p-3 rounded-3xl shadow">
         Hello, {mrParker.fullname.firstname}
       </div>
       <div>
@@ -92,10 +93,9 @@ const MrParkerHome = () => {
           <i className="text-lg font-medium ri-logout-box-r-line"></i>
         </Link>
       </div>
-      <div className='h-3/5'>
-        <img className="h-full w-full object-cover" src="https://miro.medium.com/max/1280/0*gwMx05pqII5hbfmX.gif"></img>
-
-      </div>
+      <div className='h-3/5 '>
+      <LiveTracking/>
+        </div>
       <div className='h-2/5 p-6'>
         <MrParkerDetails />
       </div>

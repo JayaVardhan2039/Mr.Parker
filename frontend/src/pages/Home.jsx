@@ -14,6 +14,7 @@ import { useContext } from 'react'
 import { UserDataContext } from '../Context/UserContext'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
+import LiveTracking from '../components/LiveTracking'
 
 const Home = () => {
   const [pickup, setPickup] = useState('')
@@ -155,16 +156,13 @@ const Home = () => {
 
   return (
     <div className='h-screen relative overflow-hidden'>
-      <div className="absolute left-5 top-5  bg-white p-3 rounded shadow">
+      <div className="absolute left-5 top-5 z-50 bg-white p-3 rounded-3xl shadow">
         Welcome, {user.fullname.firstname}
       </div>
       
       <div className='h-screen w-screen'>
         {/*image for temp use*/}
-        <img
-          className='h-full w-full object-cover'
-          src='https://miro.medium.com/max/1280/0*gwMx05pqII5hbfmX.gif'
-        ></img>
+        <LiveTracking />
       </div>
       <div className=' flex flex-col justify-end h-screen absolute top-0 w-full '>
         <div className='h-[20%] bg-white p-6 relative'>
@@ -177,7 +175,7 @@ const Home = () => {
           </h5>
           <Link
             to='/user-login'
-            className=' fixed right-2 top-2 h-10 w-10 bg-white flex items-center justify-center rounded-full'
+            className=' fixed right-2 top-2 h-10 w-10 bg-white flex items-center justify-center rounded-full '
           >
             <i className='text-lg font-medium ri-logout-box-r-line'></i>
           </Link>

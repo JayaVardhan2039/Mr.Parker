@@ -9,6 +9,7 @@ import { useEffect } from 'react'
 import { useContext } from 'react'
 import {SocketContext} from '../Context/SocketContext'
 import { useNavigate } from 'react-router-dom'
+import LiveTracking from '../components/LiveTracking';
 
 const Parking = () => {
   const location = useLocation();
@@ -48,8 +49,8 @@ const Parking = () => {
         <i className="text-lg font-medium ri-home-4-fill"></i>
       </Link>
       <div className='h-1/2'>
-        <img className="h-full w-full object-cover" src="https://miro.medium.com/max/1280/0*gwMx05pqII5hbfmX.gif"></img>
-      </div>
+       <LiveTracking/>
+       </div>
       <div className='h-1/2 p-4'>
         <div className='flex items-center justify-between'>
           <img className="h-14" src="https://www.pngplay.com/wp-content/uploads/8/Uber-PNG-Photos.png" alt="vscd" />
