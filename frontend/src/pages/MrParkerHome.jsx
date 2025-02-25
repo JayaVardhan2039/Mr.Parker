@@ -43,8 +43,7 @@ const MrParkerHome = () => {
     const locationInterval = setInterval(updateLocation, 10000)
     updateLocation()
 
-    // return () => clearInterval(locationInterval)
-  })
+   })
 
   socket.on('new-park', (data) => {
     setPark(data)

@@ -1010,8 +1010,7 @@ This endpoint is used to start a park request by a MrParker. It requires the par
 - `otp` (number, required): The OTP for the park request. Must be a 6-digit number.
 
 Example:
-```
-GET /parks/start-park?parkId=60d21b4667d0d8992e610c85&otp=123456
+``GET /parks/start-park?parkId=60d21b4667d0d8992e610c85&otp=123456
 ```
 
 ### Responses
