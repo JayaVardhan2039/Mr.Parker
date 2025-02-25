@@ -123,7 +123,6 @@ const Home = () => {
       }
     )
     setFare(response.data)
-    console.log(response.data)
   }
   async function createPark() {
     const response = await axios.post(
@@ -139,11 +138,9 @@ const Home = () => {
         }
       }
     )
-    console.log(response.data)
   }
 
   socket.on('park-confirmed', (park) => {
-    console.log(park)
     setPark(park)
     setVehiclePanel(false)
     setVehicleParkFound(false)

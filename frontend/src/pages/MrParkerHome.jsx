@@ -47,7 +47,6 @@ const MrParkerHome = () => {
   })
 
   socket.on('new-park', (data) => {
-    console.log(data._id, mrParker)
     setPark(data)
     setParkPopUpPanel(true)
   })

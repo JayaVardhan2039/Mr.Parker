@@ -100,3 +100,40 @@ module.exports.startPark = async ({ parkId, otp, mrparker }) => {
 
     return park;
 }
+
+module.exports.generateOtp = async (parkId) => {
+    const park = await parkModel.findById(parkId);
+    if (!park) {
+        throw new Error('Park not found');
+    }
+    const otp = getOtp(6);
+    park.otp = otp;
+    await park.save();
+    return otp;
+}
+
+module.exports.completeHandover = async (parkId, otp) => {
+    const park = await parkModel.findOne({ _id: parkId, otp });
+    if (!park) {
+        throw new Error('Invalid OTP or Park not found');
+    }
+    park.status = 'ongoing';
+    await park.save();
+}
+
+module.exports.endPark = async ({ parkId,mrparker }) => {
+    if (!parkId) {
+        throw new Error('Park Id is required');
+    }
+
+    const park=await parkModel.findOne({_id:parkId,mrparker:mrparker._id}).populate('user').populate('mrparker');
+    if(!park){
+        throw new Error('Park not found');
+    }
+    if(park.status!=='ongoing'){
+        throw new Error('Park is not ongoing');
+    }
+    await parkModel.findOneAndUpdate
+    ({ _id: parkId }, { status: 'completed' });
+    return park;
+}

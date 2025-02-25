@@ -1,9 +1,46 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { useGSAP } from '@gsap/react'
+import gsap from 'gsap'
+import Handover from '../components/Handover' 
+// Add this import
+import axios from 'axios'
+import { useEffect } from 'react'
+import { useContext } from 'react'
+import {SocketContext} from '../Context/SocketContext'
+import { useNavigate } from 'react-router-dom'
 
 const Parking = () => {
   const location = useLocation();
   const {park} = location.state;
+  const {socket} = useContext(SocketContext)
+  const navigate = useNavigate()
+  const [otpPanel, setOtpPanel] = useState(false)
+  const [otp, setOtp] = useState('')
+  const otpPanelRef = useRef(null)
+
+  socket.on('park-ended', () => {
+    navigate('/home')
+  })
+
+  const requestOtp = async () => {
+    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/parks/request-otp`, {
+      params: { parkId: park._id },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+    setOtp(response.data.otp)
+    setOtpPanel(true)
+  }
+
+  useGSAP(() => {
+    if (otpPanel) {
+      gsap.to(otpPanelRef.current, { transform: 'translateY(0%)' })
+    } else {
+      gsap.to(otpPanelRef.current, { transform: 'translateY(100%)' })
+    }
+  }, [otpPanel])
 
   return (
     <div className='h-screen'>
@@ -44,8 +81,11 @@ const Parking = () => {
             </div>
           </div>
         </div>
-        <button className='w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg'>Request for handover</button>
-      </div>
+        <button onClick={requestOtp} className='w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg'>Request for handover</button>
+        
+      </div><div ref={otpPanelRef} className="fixed w-full z-10 bottom-0  bg-white px-3 py-6 pt-12">
+          <Handover park={park} otp={otp} setOtpPanel={setOtpPanel} />
+        </div>
     </div>
   )
 }

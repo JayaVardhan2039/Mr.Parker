@@ -32,4 +32,23 @@ router.get('/start-park',
     parkController.startPark
 );
 
+router.get('/request-otp',
+    authMiddleware.authUser,
+    query('parkId').isMongoId().withMessage('Invalid Park Id'),
+    parkController.requestOtp
+);
+
+router.post('/complete-handover',
+    authMiddleware.authUser,
+    body('parkId').isMongoId().withMessage('Invalid Park Id'),
+    body('otp').isNumeric().isLength({ min: 6, max: 6 }).withMessage('Invalid OTP'),
+    parkController.completeHandover
+);
+
+router.post('/end-park',
+    authMiddleware.authMrParker,
+    body('parkId').isMongoId().withMessage('Invalid Park Id'),
+    parkController.endPark
+);
+
 module.exports = router;

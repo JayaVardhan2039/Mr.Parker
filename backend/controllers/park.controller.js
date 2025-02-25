@@ -95,4 +95,54 @@ module.exports.startPark = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
-}
+};
+
+module.exports.requestOtp = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+        const { parkId } = req.query;
+        const otp = await parkService.generateOtp(parkId);
+        res.status(200).json({ otp });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+module.exports.completeHandover = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+        const { parkId, otp } = req.body;
+        await parkService.completeHandover(parkId, otp);
+        res.status(200).json({ message: 'Handover completed successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+module.exports.endPark = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { parkId } = req.body;
+
+    try {
+        const park = await parkService.endPark({ parkId, mrparker: req.MrParker });
+        sendMessageToSocketId(park.user.socketId, {
+            event: 'park-ended',
+            data: park
+        });
+        res.status(200).json(park);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
