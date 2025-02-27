@@ -79,7 +79,7 @@ module.exports.getAddressFromCoordinates = async (lat, lng) => {
     try {
         const response = await axios.get(url);
         if (response.data.status === 'OK') {
-            return response.data.results[0].formatted_address;
+            return response.data.results[0];
         } else {
             throw new Error('Unable to fetch address');
         }

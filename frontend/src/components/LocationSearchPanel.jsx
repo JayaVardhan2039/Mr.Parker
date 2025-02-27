@@ -15,8 +15,7 @@ const LocationSearchPanel = (props) => {
               Authorization: `Bearer ${localStorage.getItem('token')}`
             }
           });
-          setPickup(response.data.address);
-          console.log(response);
+          setPickup(response.data.address.formatted_address);
         } catch (error) {
           console.error('Error fetching address:', error);
         }

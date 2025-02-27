@@ -32,11 +32,12 @@ const Home = () => {
   const vehicleFoundRef = useRef(null)
   const confirmParkPanelRef = useRef(null)
   const waitingForMrParkerRef = useRef(null)
-  const destination = 'vizag'
+  const [destination, setDestination] = useState(null)
   const { socket } = useContext(SocketContext)
   const {user} = useContext(UserDataContext)
   const [park,setPark] = useState(null)
   const navigate = useNavigate()
+  const [showFindParkerButton, setShowFindParkerButton] = useState(false)
 
   useEffect(() => {
     socket.emit('join', { userId: user._id, userType: 'user' })
@@ -60,6 +61,7 @@ const Home = () => {
           }
         )
         setPickupSuggestions(response.data)
+        
       } catch (error) {
         console.error('Error fetching suggestions:', error)
         setPickupSuggestions([])
@@ -68,6 +70,61 @@ const Home = () => {
       setPickupSuggestions([])
     }
   }
+
+  const handleDestinationChange = async (e) => {
+    const value = e.target.value
+    const response1 = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-address`, {
+      params: { lat: value.ltd, lng: value.lng },
+      headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+    return response1
+  }
+
+  const handleDestinateLobby = async () => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/maps/get-coordinates`,
+      {
+        params: { address: pickup },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      }
+    )
+    const des=handleDestinationChange({ target: { value: response.data } })
+    
+    des.then(response => {
+      const address = response.data.address;
+    
+      // Function to extract district from address components
+      const getDistrict = (addressComponents) => {
+        // Look for "administrative_area_level_2" (district)
+        const district = addressComponents.find(component =>
+          component.types.includes('administrative_area_level_2')
+        );
+    
+        // If district is not found, fallback to "locality"
+        if (!district) {
+          const locality = addressComponents.find(component =>
+            component.types.includes('locality')
+          );
+          return locality ? locality.long_name : null;
+        }
+    
+        return district.long_name;
+      };
+    
+      // Extract district name
+      const districtName = getDistrict(address.address_components);
+      setDestination(districtName)
+    }).catch(error => {
+      console.error('Error:', error);
+    });
+    
+    setShowFindParkerButton(true)
+  }
+
   useGSAP(() => {
     if (panelOpen) {
       gsap.to(panelRef.current, { height: '80%', padding: '20px' })
@@ -194,12 +251,21 @@ const Home = () => {
               placeholder='Add a pickup Location'
             ></input>
           </form>
-          <button
-            onClick={findPark}
-            className='bg-black text-white px-4 py-2 rounded-lg mt-3 w-full'
-          >
-            Find a Parker
-          </button>
+          {!showFindParkerButton ? (
+            <button
+              onClick={handleDestinateLobby}
+              className='bg-black text-white px-4 py-2 rounded-lg mt-3 w-full'
+            >
+              Destinate a lobby
+            </button>
+          ) : (
+            <button
+              onClick={findPark}
+              className='bg-black text-white px-4 py-2 rounded-lg mt-3 w-full'
+            >
+              Find a Parker
+            </button>
+          )}
         </div>
         <div ref={panelRef} className=' bg-white h-0'>
           <LocationSearchPanel
