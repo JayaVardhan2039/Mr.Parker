@@ -72,3 +72,19 @@ module.exports.getMrParkersInTheRadius = async (ltd,lng, radius) => {
     });
     return mrParkers;
 }
+
+module.exports.getAddressFromCoordinates = async (lat, lng) => {
+    const apiKey = process.env.GOOGLE_MAPS_API;
+    const url = `https://maps.gomaps.pro/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`;
+    try {
+        const response = await axios.get(url);
+        if (response.data.status === 'OK') {
+            return response.data.results[0].formatted_address;
+        } else {
+            throw new Error('Unable to fetch address');
+        }
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};

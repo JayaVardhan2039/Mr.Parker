@@ -18,4 +18,9 @@ router.get('/get-suggestions',
     query('input').isString().isLength({ min: 3}),
     authMiddleware.authUser,mapController.getAutoCompleteSuggestions);
 
+router.get('/get-address',
+    query('lat').isFloat().withMessage('Invalid latitude'),
+    query('lng').isFloat().withMessage('Invalid longitude'),
+    authMiddleware.authUser, mapController.getAddressFromCoordinates);
+
 module.exports =router;
