@@ -1,6 +1,7 @@
 const socketIO = require('socket.io');
 const userModel = require('./models/user.model');
 const mrParkerModel = require('./models/mrparker.model');
+const ParkModel = require('./models/park.model');
 
 let io;
 
@@ -43,8 +44,13 @@ const initializeSocket = (server) => {
             io.emit('sp-clicked', { message });
         });
 
-
-
+        socket.on('request-handover', async (data) => {
+            const { parkId } = data;
+            const park = await ParkModel.findById(parkId).populate('mrparker');
+            if (park && park.mrparker && park.mrparker.socketId) {
+                io.to(park.mrparker.socketId).emit('request-handover', { parkId });
+            }
+        });
 
         socket.on('disconnect', () => {
             console.log('User disconnected');

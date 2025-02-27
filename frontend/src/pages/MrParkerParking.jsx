@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from 'react'
+import React, { useRef, useState, useContext, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import FinishParking from '../components/FinishParking'
 import gsap from 'gsap'
@@ -9,6 +9,7 @@ import axios from 'axios'
 
 const MrParkerParking = () => {
   const [finishParkPanel, setFinishParkPanel] = useState(false)
+  const [isHandoverRequested, setIsHandoverRequested] = useState(false)
   const finishParkPanelRef=useRef(null)
   const location = useLocation();
   const parkData = location.state?.park
@@ -21,6 +22,15 @@ const MrParkerParking = () => {
     } else {
       gsap.to(finishParkPanelRef.current, {transform: 'translateY(100%)'})
     }}, [finishParkPanel])
+
+    useEffect(() => {
+      socket.on('request-handover', (data) => {
+        if (!finishParkPanel) {
+          setFinishParkPanel(true);
+          setIsHandoverRequested(true);
+        }
+      });
+    }, [socket, finishParkPanel]);
 
     const loadAddress = async ()=>{
       navigator.geolocation.getCurrentPosition(async (position) => {
@@ -83,7 +93,7 @@ const MrParkerParking = () => {
 </button>
         </div>
         <div ref={finishParkPanelRef} className="fixed w-full h-screen z-10 translate-y-full bottom-0 bg-white px-3 py-12">
-          <FinishParking park={parkData} setFinishParkPanel={setFinishParkPanel}/>
+          <FinishParking isHandoverRequested={isHandoverRequested} park={parkData} setFinishParkPanel={setFinishParkPanel}/>
         </div>  
         
     </div>

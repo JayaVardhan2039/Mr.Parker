@@ -29,9 +29,10 @@ const Parking = () => {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
-    })
-    setOtp(response.data.otp)
-    setOtpPanel(true)
+    });
+    setOtp(response.data.otp);
+    setOtpPanel(true);
+    socket.emit('request-handover', { parkId: park._id });
   }
 
   useEffect(() => {

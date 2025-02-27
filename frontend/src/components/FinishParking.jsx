@@ -58,6 +58,11 @@ const FinishParking = (props) => {
     <div>
       <h5 className='p-1 text-center absolute top-0 w-[93%]' onClick={() => props.setOtpPanel(false)}><i className="text-3xl text-gray-400 ri-arrow-down-wide-line"></i></h5>
       <h3 className='text-2xl font-semibold mb-5'>Finish the Pickup</h3>
+      {props.isHandoverRequested && (
+        <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
+          User requested for handover
+        </div>
+      )}
       <div className='flex items-center justify-between p-3 border-2 border-yellow-300 rounded-lg mt-3'>
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
