@@ -38,6 +38,10 @@ const initializeSocket = (server) => {
         }
         );
 
+        socket.on('sp-clicked', (data) => {
+            const { message } = data;
+            io.emit('sp-clicked', { message });
+        });
 
 
 

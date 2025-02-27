@@ -1,12 +1,10 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useContext, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import Handover from '../components/Handover' 
 // Add this import
 import axios from 'axios'
-import { useEffect } from 'react'
-import { useContext } from 'react'
 import {SocketContext} from '../Context/SocketContext'
 import { useNavigate } from 'react-router-dom'
 import LiveTracking from '../components/LiveTracking';
@@ -19,6 +17,7 @@ const Parking = () => {
   const [otpPanel, setOtpPanel] = useState(false)
   const [otp, setOtp] = useState('')
   const otpPanelRef = useRef(null)
+  const [statusMessage, setStatusMessage] = useState('Your vehicle is not parked yet.')
 
   socket.on('park-ended', () => {
     navigate('/home')
@@ -34,6 +33,13 @@ const Parking = () => {
     setOtp(response.data.otp)
     setOtpPanel(true)
   }
+
+  useEffect(() => {
+    socket.on('sp-clicked', (data) => {
+      console.log(data.message)
+      setStatusMessage(data.message)
+    })
+  }, [socket])
 
   useGSAP(() => {
     if (otpPanel) {
@@ -78,6 +84,13 @@ const Parking = () => {
                 Rupees {park?.fare}
               </h3>
                 <p className='text-sm -mt-1 text-gray-600'>Cash Cash</p>
+              </div>
+            </div>
+            <div className='flex items-center gap-5 p-3'>
+              <i className="text-lg ri-information-line"></i>
+              <div>
+                Your vehicle is parked at
+                <h3>{statusMessage}</h3>
               </div>
             </div>
           </div>
