@@ -40,13 +40,13 @@ function getOtp(num) {
     return generateOtp(num);
 }
 
-module.exports.createPark = async ({ user, pickup,destination,vehicleType }) => {
+module.exports.createPark = async ({ user, pickup, destination, vehicleType, time }) => {
     if (!user || !pickup || !destination || !vehicleType) {
         throw new Error('User, Pickup, Destination and Vehicle Type are required');
     }
     const fare = await getFare(pickup, destination);
 
-    const park = parkModel.create({ user, pickup, destination, otp:getOtp(6), fare: fare[vehicleType], vehicleType });
+    const park = parkModel.create({ user, pickup, destination, otp: getOtp(6), fare: fare[vehicleType], vehicleType, time });
 
     return park;
 };  

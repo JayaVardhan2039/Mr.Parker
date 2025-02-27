@@ -38,6 +38,7 @@ const Home = () => {
   const [park,setPark] = useState(null)
   const navigate = useNavigate()
   const [showFindParkerButton, setShowFindParkerButton] = useState(false)
+  const [time, setTime] = useState(null)
 
   useEffect(() => {
     socket.emit('join', { userId: user._id, userType: 'user' })
@@ -183,12 +184,14 @@ const Home = () => {
     setFare(response.data)
   }
   async function createPark() {
+    console.log('parktime',time)
     const response = await axios.post(
       `${import.meta.env.VITE_BASE_URL}/parks/create`,
       {
         pickup: pickup,
         destination: destination,
-        vehicleType: vehicleType
+        vehicleType: vehicleType,
+        time: time // Ensure time is included here
       },
       {
         headers: {
@@ -273,6 +276,7 @@ const Home = () => {
             setVehiclePanel={setVehiclePanel}
             pickupSuggestions={pickupSuggestions}
             setPickup={setPickup}
+            setTime={setTime} // Pass setTime to LocationSearchPanel
           />
         </div>
       </div>

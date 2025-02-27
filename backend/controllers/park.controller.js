@@ -11,10 +11,10 @@ module.exports.createPark = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const { userId, pickup, destination, vehicleType } = req.body;
+    const { userId, pickup, destination, vehicleType,time } = req.body;
 
     try {
-        const park = await parkService.createPark({ user: req.user._id, pickup, destination, vehicleType });
+        const park = await parkService.createPark({ user: req.user._id, pickup, destination, vehicleType,time });
         res.status(201).json(park);
 
         const pickupCoordinates = await mapService.getAddressCoordinate(pickup);

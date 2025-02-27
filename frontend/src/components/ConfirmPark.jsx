@@ -28,7 +28,7 @@ const ConfirmPark = (props) => {
         <button onClick={() => {
           props.setVehicleParkFound(true)
           props.setConfirmParkPanel(false);
-          props.createPark()
+          props.createPark();
         }} className='w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg'>Confirm</button>
       </div>
     </div>

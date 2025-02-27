@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 const LocationSearchPanel = (props) => {
-  const { pickupSuggestions, setPanelOpen, setVehiclePanel, setPickup } = props;
+  const { pickupSuggestions, setPanelOpen, setVehiclePanel, setPickup, setTime } = props;
+  const [showTimePicker, setShowTimePicker] = useState(false);
+  const [selectedTime, setSelectedTimeState] = useState(null);
+
+  const handleTimeChange = (event) => {
+    setSelectedTimeState(event.target.value);
+    setTime(event.target.value);
+    console.log('Selected time:', event.target.value);
+  };
 
   const handleCurrentLocationClick = () => {
     if (navigator.geolocation) {
@@ -28,10 +36,20 @@ const LocationSearchPanel = (props) => {
   return (
     <div>
       <div className='flex gap-4 my-2 items-center justify-start mb-8'>
-        <h2 className='bg-[#eee] h-8 w-36 flex items-center justify-evenly font-medium rounded-full text-base'>
+        <button 
+          className='bg-[#eee] h-8 w-36 flex items-center justify-evenly font-medium rounded-full text-base'
+          onClick={() => setShowTimePicker(true)}
+        >
           <i className="ri-time-fill text-xl"></i>Set a Time
-        </h2>
+        </button>
       </div>
+
+      {showTimePicker && (
+        <div className='time-picker-dialog'>
+          <input type="datetime-local" onChange={handleTimeChange} />
+          <button onClick={() => setShowTimePicker(false)}>Confirm</button>
+        </div>
+      )}
 
       {(pickupSuggestions || []).map((suggestion, index) => (
         <div

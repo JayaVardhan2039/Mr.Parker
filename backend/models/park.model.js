@@ -47,6 +47,10 @@ const parkSchema = new mongoose.Schema({
         type: Number,
         select: false,
         required: true,
+    },
+    time: {
+        type: Date,
+        required: false,
     }
 
 })
