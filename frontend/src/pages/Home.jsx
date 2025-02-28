@@ -223,6 +223,12 @@ const Home = () => {
       <div className='h-screen w-screen'>
         {/*image for temp use*/}
         <LiveTracking />
+        <Link
+            to='/user-login'
+            className=' fixed right-2 top-20 h-10 w-10 bg-white flex items-center justify-center rounded-full '
+          >
+            <i className='text-lg font-medium ri-logout-box-r-line'></i>
+          </Link>
       </div>
       <div className=' flex flex-col justify-end h-screen absolute top-0 w-full '>
         <div className='h-[20%] bg-white p-6 relative'>
@@ -233,12 +239,7 @@ const Home = () => {
           >
             <i className='ri-arrow-down-wide-line'></i>
           </h5>
-          <Link
-            to='/user-login'
-            className=' fixed right-2 top-2 h-10 w-10 bg-white flex items-center justify-center rounded-full '
-          >
-            <i className='text-lg font-medium ri-logout-box-r-line'></i>
-          </Link>
+          
           <h4 className='text-2xl font-semibold'>Find a Mr.Parker</h4>
           <form
             onSubmit={(e) => {

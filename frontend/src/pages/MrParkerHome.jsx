@@ -18,7 +18,7 @@ const MrParkerHome = () => {
   const confirmParkPopUpPanelRef = useRef(null)
   const { socket } = useContext(SocketContext)
   const [park, setPark] = useState(null)
-  const [timer, setTimer] = useState(null);
+  const [timer, setTimer] = useState(true);
   const [timeLeft, setTimeLeft] = useState(null);
 
   useEffect(() => {
@@ -46,6 +46,7 @@ const MrParkerHome = () => {
 
   useEffect(() => {
     if (timeLeft === 0) {
+      setTimer(false)
       alert('Time is over');
     }
     if (timeLeft > 0) {
@@ -105,21 +106,19 @@ const MrParkerHome = () => {
   return (
     <div className='h-screen'>
       {/* Timer UI */}
-      {timeLeft !== null && (
-        <div className="fixed top-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-lg shadow-lg z-50">
-          <h3 className="text-2xl font-semibold">Time Left: {Math.floor(timeLeft / 60)}:{timeLeft % 60 < 10 ? '0' : ''}{timeLeft % 60}</h3>
+      {timeLeft !== null && timer && (
+        <div className="absolute left-1/2 top-5 z-50 bg-white p-3 rounded-3xl shadow">
+          <h3>Time Left: {Math.floor(timeLeft / 60)}:{timeLeft % 60 < 10 ? '0' : ''}{timeLeft % 60}</h3>
         </div>
       )}
       <div className="absolute left-5 top-5 z-50 bg-white p-3 rounded-3xl shadow">
         Hello, {mrParker.fullname.firstname}
       </div>
-      <div>
-        <Link to='/mrparker-login' className='fixed right-2 top-2 h-10 w-10 bg-white flex items-center k justify-center rounded-full'>
-          <i className="text-lg font-medium ri-logout-box-r-line"></i>
-        </Link>
-      </div>
       <div className='h-3/5 '>
         <LiveTracking />
+        <Link to='/mrparker-login' className='fixed right-2 top-20 h-10 w-10 bg-white flex items-center k justify-center rounded-full'>
+          <i className="text-lg font-medium ri-logout-box-r-line"></i>
+        </Link>
       </div>
       <div className='h-2/5 p-6'>
         <MrParkerDetails />

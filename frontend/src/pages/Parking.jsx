@@ -52,11 +52,12 @@ const Parking = () => {
 
   return (
     <div className='h-screen'>
-      <Link to='/home' className='fixed right-2 top-2 h-10 w-10 bg-white flex items-center k justify-center rounded-full'>
-        <i className="text-lg font-medium ri-home-4-fill"></i>
-      </Link>
+      
       <div className='h-1/2'>
        <LiveTracking/>
+       <Link to='/home' className='fixed right-2 top-20 h-10 w-10 bg-white flex items-center k justify-center rounded-full'>
+        <i className="text-lg font-medium ri-home-4-fill"></i>
+      </Link>
        </div>
       <div className='h-1/2 p-4'>
         <div className='flex items-center justify-between'>
