@@ -4,7 +4,6 @@ import { MrParkerDataContext } from '../Context/MrParkerContext'
 
 const MrParkerDetails = (props) => {
   const { mrParker } = useContext(MrParkerDataContext)
-  const totalEarned = 1000
   
   return (
     <div><div className='flex items-center justify-between'>
@@ -13,7 +12,7 @@ const MrParkerDetails = (props) => {
       <h4 className='text-lg font-medium'>{ mrParker.fullname.firstname + " " + mrParker.fullname.lastname }</h4>
     </div>
     <div>
-      <h4 className='text-xl font-semibold '>${totalEarned}</h4>
+      <h4 className='text-xl font-semibold '>${mrParker.Earning}</h4>
       <p className='text-sm text-gray-600'>Earned</p>
     </div>
   </div>
@@ -25,8 +24,8 @@ const MrParkerDetails = (props) => {
     <h5 className='text-lg font-medium'>10.2</h5>
     <p className='text-sm text-gray-600'>Hours Online</p></i></div>
     <div className='text-center'><i className="text-3xl mb-2 font-thin ri-booklet-line">
-    <h5 className='text-lg font-medium'>10.2</h5>
-    <p className='text-sm text-gray-600'>Hours Online</p></i></div>
+    <h5 className='text-lg font-medium'>{mrParker.parks}</h5>
+    <p className='text-sm text-gray-600'>Number of parks</p></i></div>
   </div></div>
   )
 }

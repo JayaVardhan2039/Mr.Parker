@@ -2,6 +2,7 @@ const parkModel = require('../models/park.model');
 const { sendMessageToSocketId } = require('../socket');
 const mapService = require('./maps.service');
 const crypto = require('crypto');
+const MrParkerModel = require('../models/mrparker.model');
 
 async function getFare(pickup, destination) {
     if (!pickup || !destination) {
@@ -135,5 +136,13 @@ module.exports.endPark = async ({ parkId,mrparker }) => {
     }
     await parkModel.findOneAndUpdate
     ({ _id: parkId }, { status: 'completed' });
+
+    // Update MrParker's earnings
+    await MrParkerModel.findOneAndUpdate(
+        { _id: mrparker._id },
+        { $inc: { Earning: park.fare } },
+        { $inc: { parks: 1 } }
+    );
+
     return park;
 }

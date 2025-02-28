@@ -42,6 +42,14 @@ const MrParkerschema=new mongoose.Schema({
             type: Number,
         },
     },
+    Earning:{
+        type:Number,
+        default:0,
+    },
+    parks:{
+        type:Number,
+        default:0,
+    }
     })
 
 MrParkerschema.methods.generateAuthToken = function(){
