@@ -35,6 +35,8 @@ const Parking = () => {
     socket.emit('request-handover', { parkId: park._id });
   }
 
+  
+
   useEffect(() => {
     socket.on('sp-clicked', (data) => {
       console.log(data.message)

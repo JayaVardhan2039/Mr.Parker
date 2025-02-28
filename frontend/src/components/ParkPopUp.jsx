@@ -32,14 +32,16 @@ const ParkPopUp = (props) => {
               <p className='text-sm -mt-1 text-gray-600'>Cash Cash</p>
             </div>
           </div>
-          <div className='flex items-center gap-5 p-3'>
-            <i className="text-lg ri-money-rupee-circle-line"></i>
-            <div><h3 className='text-lg font-medium'>
-              Handover time {props.park?.time}
-            </h3>
-              <p className='text-sm -mt-1 text-gray-600'>Cash Cash</p>
+          {props.park?.time && (
+            <div className='flex items-center gap-5 p-3'>
+              <i className="text-lg ri-money-rupee-circle-line"></i>
+              <div><h3 className='text-lg font-medium'>
+                Handover time {props.park?.time}
+              </h3>
+                <p className='text-sm -mt-1 text-gray-600'>Cash Cash</p>
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <div className='flex items-center justify-between mt-5 w-full'>
           <button onClick={() => { props.setParkPopUpPanel(false) }} className=' bg-gray-300 text-gray-700 font-semibold p-3 px-12 rounded-lg'>Ignore</button>

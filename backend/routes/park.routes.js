@@ -9,7 +9,7 @@ router.post('/create',
     body('pickup').isString().isLength({ min: 3 }).withMessage('Invalid Pickup Address'),
     body('destination').isString().isLength({ min: 3 }).withMessage('Invalid Destination Address'),
     body('vehicleType').isIn(['car', 'motorcycle', 'bicycle', 'bike']).withMessage('Invalid Vehicle Type'),
-    body('time').optional().isISO8601().withMessage('Invalid Time Format'),
+    body('time').optional({ checkFalsy: true }).isISO8601().withMessage('Invalid Time Format'),
     parkController.createPark
 );
  
@@ -39,10 +39,10 @@ router.get('/request-otp',
     parkController.requestOtp
 );
 
+router.get('/request-otp', authMiddleware.authMrParker, parkController.requestOtp);
+
 router.post('/complete-handover',
     authMiddleware.authUser,
-    body('parkId').isMongoId().withMessage('Invalid Park Id'),
-    body('otp').isNumeric().isLength({ min: 6, max: 6 }).withMessage('Invalid OTP'),
     parkController.completeHandover
 );
 

@@ -10,7 +10,7 @@ import { SocketContext } from '../Context/SocketContext'
 import axios from 'axios'
 import LiveTracking from '../components/LiveTracking'
 
-const MrParkerHome = () => {
+const MrParkerHome = ({ setTimeLeft }) => {
   const [parkPopUpPanel, setParkPopUpPanel] = useState(false)
   const [confirmParkPopUpPanel, setConfirmParkPopUpPanel] = useState(false)
   const { mrParker } = useContext(MrParkerDataContext)
@@ -18,8 +18,6 @@ const MrParkerHome = () => {
   const confirmParkPopUpPanelRef = useRef(null)
   const { socket } = useContext(SocketContext)
   const [park, setPark] = useState(null)
-  const [timer, setTimer] = useState(true);
-  const [timeLeft, setTimeLeft] = useState(null);
 
   useEffect(() => {
     socket.emit('join', { userId: mrParker._id, userType: 'mrparker' })
@@ -45,29 +43,13 @@ const MrParkerHome = () => {
   }, [socket, mrParker._id])
 
   useEffect(() => {
-    if (timeLeft === 0) {
-      setTimer(false)
-      alert('Time is over');
-    }
-    if (timeLeft > 0) {
-      const timerId = setInterval(() => {
-        setTimeLeft(timeLeft - 1);
-      }, 1000);
-      return () => clearInterval(timerId);
-    }
-  }, [timeLeft]);
-
-  useEffect(() => {
-    socket.on('finish-park-panel', () => {
-      setTimeLeft(null);
-    });
-  }, [socket]);
-
-  socket.on('new-park', (data) => {
-    console.log(data)
-    setPark(data)
-    setParkPopUpPanel(true)
-  })
+    socket.on('new-park', (data) => {
+      console.log(data)
+      setPark(data)
+      setParkPopUpPanel(true)
+      
+    })
+  }, [socket, mrParker._id])
 
   async function confirmPark() {
     const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/parks/confirm`, {
@@ -79,14 +61,16 @@ const MrParkerHome = () => {
       }
     });
 
+    if (park.time) {
+      const parkEndTime = new Date(park.time).getTime();
+      const currentTime = new Date().getTime();
+      const timeDifference = Math.floor((parkEndTime - currentTime) / 1000); // Time difference in seconds
+
+      setTimeLeft(timeDifference);
+    }
+
     setParkPopUpPanel(false);
     setConfirmParkPopUpPanel(true);
-
-    const parkEndTime = new Date(park.time).getTime();
-    const currentTime = new Date().getTime();
-    const timeDifference = Math.floor((parkEndTime - currentTime) / 1000); // Time difference in seconds
-
-    setTimeLeft(timeDifference);
   }
 
   useGSAP(() => {
@@ -105,12 +89,6 @@ const MrParkerHome = () => {
   }, [confirmParkPopUpPanel])
   return (
     <div className='h-screen'>
-      {/* Timer UI */}
-      {timeLeft !== null && timer && (
-        <div className="absolute left-1/2 top-5 z-50 bg-white p-3 rounded-3xl shadow">
-          <h3>Time Left: {Math.floor(timeLeft / 60)}:{timeLeft % 60 < 10 ? '0' : ''}{timeLeft % 60}</h3>
-        </div>
-      )}
       <div className="absolute left-5 top-5 z-50 bg-white p-3 rounded-3xl shadow">
         Hello, {mrParker.fullname.firstname}
       </div>
