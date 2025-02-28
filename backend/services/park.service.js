@@ -3,6 +3,7 @@ const { sendMessageToSocketId } = require('../socket');
 const mapService = require('./maps.service');
 const crypto = require('crypto');
 const MrParkerModel = require('../models/mrparker.model');
+const schedule = require('node-schedule');
 
 async function getFare(pickup, destination) {
     if (!pickup || !destination) {
@@ -140,9 +141,18 @@ module.exports.endPark = async ({ parkId,mrparker }) => {
     // Update MrParker's earnings
     await MrParkerModel.findOneAndUpdate(
         { _id: mrparker._id },
-        { $inc: { Earning: park.fare } },
-        { $inc: { parks: 1 } }
+        { $inc: { Earning: park.fare, parks: 1 } }
     );
 
     return park;
 }
+
+// Schedule a job to reset earnings and parks count every day at 2 AM
+schedule.scheduleJob('50 22 * * *', async () => {
+    try {
+        await MrParkerModel.updateMany({}, { $set: { Earning: 0, parks: 0 } });
+        console.log('MrParker earnings and parks count reset to 0');
+    } catch (error) {
+        console.error('Error resetting MrParker earnings and parks count:', error);
+    }
+});
