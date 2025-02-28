@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
+import { io } from 'socket.io-client'
 import Start from './pages/Start'
 import UserLogin from './pages/UserLogin'
 import UserRegister from './pages/UserRegister'
@@ -14,9 +15,12 @@ import MrParkerLogout from './pages/MrParkerLogout'
 import Parking from './pages/Parking'
 import MrParkerParking from './pages/MrParkerParking'
 
+const socket = io(import.meta.env.VITE_BASE_URL);
+
 const App = () => {
   const [timeLeft, setTimeLeft] = useState(null);
   const [timer, setTimer] = useState(true);
+  
 
   const updateTimeLeft = (time) => {
     setTimeLeft(time);
@@ -25,7 +29,7 @@ const App = () => {
   useEffect(() => {
     if (timeLeft === 0) {
       setTimer(false);
-      alert('Time is over');
+      socket.emit('trigger-request-otp');
     }
     if (timeLeft > 0) {
       const timerId = setInterval(() => {

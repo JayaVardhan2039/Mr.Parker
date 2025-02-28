@@ -2,8 +2,10 @@ import React from 'react'
 import { useContext } from 'react'
 import { MrParkerDataContext } from '../Context/MrParkerContext'
 
-const MrParkerDetails = () => {
+const MrParkerDetails = (props) => {
   const { mrParker } = useContext(MrParkerDataContext)
+  const totalEarned = 1000
+  
   return (
     <div><div className='flex items-center justify-between'>
     <div className='flex items-center justify-start gap-3'>
@@ -11,7 +13,7 @@ const MrParkerDetails = () => {
       <h4 className='text-lg font-medium'>{ mrParker.fullname.firstname + " " + mrParker.fullname.lastname }</h4>
     </div>
     <div>
-      <h4 className='text-xl font-semibold '>$295.8</h4>
+      <h4 className='text-xl font-semibold '>${totalEarned}</h4>
       <p className='text-sm text-gray-600'>Earned</p>
     </div>
   </div>

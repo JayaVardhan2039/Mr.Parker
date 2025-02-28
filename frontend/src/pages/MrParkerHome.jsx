@@ -99,7 +99,7 @@ const MrParkerHome = ({ setTimeLeft }) => {
         </Link>
       </div>
       <div className='h-2/5 p-6'>
-        <MrParkerDetails />
+        <MrParkerDetails park={park} />
       </div>
       <div ref={parkPopUpPanelRef} className="fixed w-full z-10 translate-y-full bottom-0 bg-white px-3 py-12">
         <ParkPopUp

@@ -41,7 +41,16 @@ const Parking = () => {
     socket.on('sp-clicked', (data) => {
       console.log(data.message)
       setStatusMessage(data.message)
-    })
+    });
+
+    socket.on('trigger-request-otp', () => {
+      requestOtp();
+    });
+
+    return () => {
+      socket.off('sp-clicked');
+      socket.off('trigger-request-otp');
+    };
   }, [socket])
 
   useGSAP(() => {

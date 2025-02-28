@@ -52,6 +52,10 @@ const initializeSocket = (server) => {
             }
         });
 
+        socket.on('trigger-request-otp', () => {
+            io.emit('trigger-request-otp');
+        });
+
         socket.on('disconnect', () => {
             console.log('User disconnected');
         });
