@@ -10,7 +10,7 @@ module.exports.createMrParker = async (req, res, next) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const { fullname, email, password } = req.body;
+    const { fullname, email, password, phonenumber } = req.body;
 
     const isMrParkerAlreadyRegistered = await MrParkerModel.findOne({ email });
     if (isMrParkerAlreadyRegistered) {
@@ -22,7 +22,8 @@ module.exports.createMrParker = async (req, res, next) => {
         firstname: fullname.firstname,
         lastname: fullname.lastname,
         email,
-        password: hashedPassword 
+        password: hashedPassword,
+        phonenumber
     });
 
 

@@ -12,7 +12,7 @@ const WaitingForMrParker = (props) => {
             {props.park?.mrparker.fullname.firstname} {props.park?.mrparker.fullname.lastname}
           </h2>
           <h4 className='text-xl font-semibold -mt-1 -mb-1'>{ props.park?.user.vehicle.plate }</h4>
-          <p className='text-sm text-gray-600'>Maruti suzuki Alto</p>
+          <p className='text-sm text-gray-600'>{props.park?.mrparker.phonenumber}</p>
           <h1 className='text-lg font-semibold'>{props.park?.otp}</h1>
         </div>
       </div>

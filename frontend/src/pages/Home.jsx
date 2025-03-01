@@ -203,6 +203,7 @@ const Home = () => {
 
   socket.on('park-confirmed', (park) => {
     setPark(park)
+    console.log('park',park)
     setVehiclePanel(false)
     setVehicleParkFound(false)
     setWaitingForMrParker(true)

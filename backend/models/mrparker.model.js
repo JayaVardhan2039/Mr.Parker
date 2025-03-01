@@ -26,6 +26,11 @@ const MrParkerschema=new mongoose.Schema({
         minlength:[5,'Password must be atleast 5 characters long'],
         select:false,
     },  
+    phonenumber: {
+        type: String,
+        required: true,
+        minlength: [10, 'Phone number must be at least 10 characters long'],
+    },
     socketId:{
         type:String,
     },

@@ -19,7 +19,7 @@ const ParkPopUp = (props) => {
           <div className='flex items-center gap-5 p-3 border-b-2'>
             <i className="text-lg ri-map-pin-fill"></i>
             <div><h3 className='text-lg font-medium'>
-              562/11-A
+              {props.park?.user.phonenumber}
             </h3>
               <p className='text-sm -mt-1 text-gray-600'>{props.park?.pickup}</p>
             </div>

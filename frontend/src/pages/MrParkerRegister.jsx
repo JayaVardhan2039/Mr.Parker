@@ -8,41 +8,44 @@ import { useNavigate } from 'react-router-dom'
 
 export const MrParkerRegister = () => {
     const [email, setEmail] = useState('')
-        const [password, setPassword] = useState('')
-        const [firstname, setFirstname] = useState('')
-        const [lastname, setLastname] = useState('')
+    const [password, setPassword] = useState('')
+    const [firstname, setFirstname] = useState('')
+    const [lastname, setLastname] = useState('')
+    const [phonenumber, setPhonenumber] = useState('')
 
-        const {MrParker, setMrParker} = useContext(MrParkerDataContext)
-        const navigate = useNavigate()
+    const {MrParker, setMrParker} = useContext(MrParkerDataContext)
+    const navigate = useNavigate()
     
-        const submitHandler = async (e) => {
-            e.preventDefault()
-    
-            const newMrParker = {
-                fullname:{
-                    firstname:firstname,
-            lastname:lastname,
-                },
-                email:email,
-                password:password
-            }
-            
-            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/mrparkers/register`,newMrParker)
+    const submitHandler = async (e) => {
+        e.preventDefault()
 
-            if (response.status===201)
-            {
-                const data = response.data
-                setMrParker(data.MrParker)
-                localStorage.setItem('token',data.token)    
-                navigate('/mrparker-home')
-
-            }
-
-            setFirstname('')
-            setLastname('')
-            setEmail('')
-            setPassword('')
+        const newMrParker = {
+            fullname:{
+                firstname:firstname,
+                lastname:lastname,
+            },
+            email:email,
+            password:password,
+            phonenumber:phonenumber
         }
+        
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/mrparkers/register`,newMrParker)
+
+        if (response.status===201)
+        {
+            const data = response.data
+            setMrParker(data.MrParker)
+            localStorage.setItem('token',data.token)    
+            navigate('/mrparker-home')
+
+        }
+
+        setFirstname('')
+        setLastname('')
+        setEmail('')
+        setPassword('')
+        setPhonenumber('')
+    }
   return (
     <div className='px-5 py-5 h-screen flex flex-col justify-between'>
         <div>
@@ -85,6 +88,15 @@ export const MrParkerRegister = () => {
                     placeholder="Enter your password" 
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <h3 className='text-lg font-medium mb-2'>What's your phone number?</h3>
+                    <input
+                        required
+                        className='bg-[#eeeeee] mb-6 rounded px-4 py-2 border w-full text-lg placeholder:text-base'
+                        type="text"
+                        placeholder="Enter your phone number"
+                        value={phonenumber}
+                        onChange={(e) => setPhonenumber(e.target.value)}
                     />
                     <button className='bg-[#111] text-white font-semibold mb-2 rounded px-4 py-2  w-full text-lg'>Register</button>
                     <p className='text-center'>Already have an account? <Link to='/mrparker-login' className='text-blue-600'>Login here</Link></p>

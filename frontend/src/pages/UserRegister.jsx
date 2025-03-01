@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {UserDataContext} from '../Context/UserContext';
+import { UserDataContext } from '../Context/UserContext';
 
 export const UserRegister = () => {
     const [email, setEmail] = useState('');
@@ -13,6 +13,7 @@ export const UserRegister = () => {
     const [vehiclePlate, setVehiclePlate] = useState('');
     const [vehicleCapacity, setVehicleCapacity] = useState('');
     const [vehicleType, setVehicleType] = useState('');
+    const [phonenumber, setPhonenumber] = useState('');
 
     const navigate = useNavigate();
     const { user, setUser } = useContext(UserDataContext);
@@ -27,6 +28,7 @@ export const UserRegister = () => {
             },
             email: email,
             password: password,
+            phonenumber: phonenumber,
             vehicle: {
                 color: vehicleColor,
                 plate: vehiclePlate,
@@ -52,6 +54,7 @@ export const UserRegister = () => {
         setVehiclePlate('');
         setVehicleCapacity('');
         setVehicleType('');
+        setPhonenumber('');
     };
 
     return (
@@ -94,6 +97,15 @@ export const UserRegister = () => {
                         placeholder="Enter your password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <h3 className='text-lg font-medium mb-2'>What's your phone number?</h3>
+                    <input
+                        required
+                        className='bg-[#eeeeee] mb-6 rounded px-4 py-2 border w-full text-lg placeholder:text-base'
+                        type="text"
+                        placeholder="Enter your phone number"
+                        value={phonenumber}
+                        onChange={(e) => setPhonenumber(e.target.value)}
                     />
                     <h3 className='text-lg font-medium mb-2'>Vehicle Information</h3>
                     <div className='flex gap-3 mb-6'>
