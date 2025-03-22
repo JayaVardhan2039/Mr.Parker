@@ -146,6 +146,7 @@ export const UserRegister = () => {
                             <option value="bike">Bike</option>
                             <option value="bicycle">Bicycle</option>
                             <option value="motorcycle">Motorcycle</option>
+                            <option value="lorry">Lorry</option>
                         </select>
                     </div>
                     <button className='bg-[#111] text-white font-semibold mb-2 rounded px-4 py-2 w-full text-lg'>Create Account</button>

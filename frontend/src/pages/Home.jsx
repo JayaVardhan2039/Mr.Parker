@@ -39,7 +39,21 @@ const Home = () => {
   const navigate = useNavigate()
   const [showFindParkerButton, setShowFindParkerButton] = useState(false)
   const [time, setTime] = useState(null)
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
+
+
+  useEffect(() => {
+    if (showFindParkerButton) {
+      setIsButtonDisabled(true);
+      const timer = setTimeout(() => {
+        setIsButtonDisabled(false);
+      }, 5000); // 5 seconds
+  
+      return () => clearTimeout(timer); // Cleanup the timer
+    }
+  }, [showFindParkerButton]);
+  
   useEffect(() => {
     socket.emit('join', { userId: user._id, userType: 'user' })
   }, [user, socket])
@@ -128,7 +142,7 @@ const Home = () => {
 
   useGSAP(() => {
     if (panelOpen) {
-      gsap.to(panelRef.current, { height: '80%', padding: '20px' })
+      gsap.to(panelRef.current, { height: '100%', padding: '10px' })
       gsap.to(panelCloseRef.current, { opacity: 1 })
     } else {
       gsap.to(panelRef.current, { height: '0%', padding: '0px' })
@@ -170,8 +184,9 @@ const Home = () => {
 
   async function findPark() {
     setVehiclePanel(true)
+    setVehicleParkFound(false)
     setPanelOpen(false)
-
+    
     const response = await axios.get(
       `${import.meta.env.VITE_BASE_URL}/parks/get-fare`,
       {
@@ -216,23 +231,36 @@ const Home = () => {
 
 
   return (
-    <div className='h-screen relative overflow-hidden'>
-      <div className="absolute left-5 top-5 z-50 bg-white p-3 rounded-3xl shadow">
+    <div className='h-screen relative quicksand'>
+      
+      
+      {/*<div className='h-4/5'>
+        <LiveTracking />
+        <div className="absolute left-5 top-5 bg-white p-3 rounded-3xl shadow ">
         Welcome, {user.fullname.firstname}
       </div>
-      
-      <div className='h-screen w-screen'>
-        {/*image for temp use*/}
-        <LiveTracking />
         <Link
             to='/user-login'
             className=' fixed right-2 top-20 h-10 w-10 bg-white flex items-center justify-center rounded-full '
           >
-            <i className='text-lg font-medium ri-logout-box-r-line'></i>
+            <i className='text-lg font-medium ri-logout-box-r-line '></i>
           </Link>
-      </div>
-      <div className=' flex flex-col justify-end h-screen absolute top-0 w-full '>
-        <div className='h-[20%] bg-white p-6 relative'>
+      </div>*/}
+      <div className='h-4/5 relative z-0'>
+    <LiveTracking />
+    <div className="absolute left-5 top-5 bg-white p-3 rounded-3xl shadow z-50">
+      Welcome, {user.fullname.firstname}
+    </div>
+    <Link
+      to='/user-login'
+      className='fixed right-2 top-20 h-10 w-10 bg-white flex items-center justify-center rounded-full z-50'
+    >
+      <i className='text-lg font-medium ri-logout-box-r-line'></i>
+    </Link>
+  </div>
+      <div>
+      <div className='flex flex-col justify-end h-screen absolute top-0 w-full pointer-events-none'>
+        <div className='h-[20%] bg-white p-6 relative pointer-events-auto'>
           <h5
             ref={panelCloseRef}
             onClick={() => setPanelOpen(false)}
@@ -241,14 +269,17 @@ const Home = () => {
             <i className='ri-arrow-down-wide-line'></i>
           </h5>
           
-          <h4 className='text-2xl font-semibold'>Find a Mr.Parker</h4>
+          <h4 className='text-2xl font-semibold '>Find a Mr.Parker</h4>
           <form
             onSubmit={(e) => {
               submitHandler(e)
             }}
           >
             <input
-              onClick={() => setPanelOpen(true)}
+              onClick={() =>{ setPanelOpen(true);
+                setVehicleParkFound(false);
+                
+              }}
               value={pickup}
               onChange={handlePickupChange}
               className='bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-3'
@@ -256,23 +287,27 @@ const Home = () => {
               placeholder='Add a pickup Location'
             ></input>
           </form>
-          {!showFindParkerButton ? (
-            <button
-              onClick={handleDestinateLobby}
-              className='bg-black text-white px-4 py-2 rounded-lg mt-3 w-full'
-            >
-              Destinate a lobby
-            </button>
-          ) : (
-            <button
-              onClick={findPark}
-              className='bg-black text-white px-4 py-2 rounded-lg mt-3 w-full'
-            >
-              Find a Parker
-            </button>
-          )}
+          
+{!showFindParkerButton ? (
+  <button
+    onClick={handleDestinateLobby}
+    className='bg-black text-white px-4 py-2 rounded-lg mt-3 w-full'
+  >
+    Destinate a lobby
+  </button>
+) : (
+  <button
+    onClick={findPark}
+    className={`bg-black text-white px-4 py-2 rounded-lg mt-3 w-full ${
+      isButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''
+    }`}
+    disabled={isButtonDisabled}
+  >
+    Find a Parker
+  </button>
+)}
         </div>
-        <div ref={panelRef} className=' bg-white h-0'>
+        <div ref={panelRef} className=' bg-white h-0 pointer-events-auto'>
           <LocationSearchPanel
             setPanelOpen={setPanelOpen}
             setVehiclePanel={setVehiclePanel}
@@ -284,18 +319,19 @@ const Home = () => {
       </div>
       <div
         ref={vehiclePanelRef}
-        className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-12'
+        className='fixed w-full bottom-0 translate-y-full bg-white px-3 py-12'
       >
         <VehicleComponents
           setVehicleType={setVehicleType}
           fare={fare}
           setConfirmParkPanel={setConfirmParkPanel}
           setVehiclePanel={setVehiclePanel}
+          setVehicleParkFound={setVehicleParkFound}
         />
       </div>
       <div
         ref={confirmParkPanelRef}
-        className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12'
+        className='fixed w-full  bottom-0 translate-y-full bg-white px-3 py-6 pt-12'
       >
         <ConfirmPark
           pickup={pickup}
@@ -308,7 +344,7 @@ const Home = () => {
       </div>
       <div
         ref={vehicleFoundRef}
-        className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12'
+        className='fixed w-full bottom-0 translate-y-full bg-white px-3 py-6 pt-12'
       >
         <LookingForMrPaker
           pickup={pickup}
@@ -319,7 +355,7 @@ const Home = () => {
       </div>
       <div
         ref={waitingForMrParkerRef}
-        className='fixed w-full z-10 bottom-0  bg-white px-3 py-6 pt-12'
+        className='fixed w-full translate-y-full bottom-0  bg-white px-3 py-6 pt-12'
       >
         <WaitingForMrParker
          park={park}
@@ -327,7 +363,9 @@ const Home = () => {
          setWaitingForMrParker={setWaitingForMrParker}
          waitingForMrParker={waitingForMrParker} />
       </div>
+      </div>
     </div>
+      
   )
 }
 

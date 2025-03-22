@@ -88,17 +88,17 @@ const MrParkerHome = ({ setTimeLeft }) => {
     }
   }, [confirmParkPopUpPanel])
   return (
-    <div className='h-screen'>
-      <div className="absolute left-5 top-5 z-50 bg-white p-3 rounded-3xl shadow">
+    <div className='h-screen quicksand'>
+      <div className="absolute left-5 top-5 z-10 bg-white p-3 rounded-3xl shadow">
         Hello, {mrParker.fullname.firstname}
       </div>
       <div className='h-3/5 '>
         <LiveTracking />
-        <Link to='/mrparker-login' className='fixed right-2 top-20 h-10 w-10 bg-white flex items-center k justify-center rounded-full'>
+        <Link to='/mrparker-login' className='fixed right-2 top-20 h-10 w-10 bg-white flex items-center  justify-center rounded-full'>
           <i className="text-lg font-medium ri-logout-box-r-line"></i>
         </Link>
       </div>
-      <div className='h-2/5 p-6'>
+      <div className='h-2/5 p-6 '>
         <MrParkerDetails park={park} />
       </div>
       <div ref={parkPopUpPanelRef} className="fixed w-full z-10 translate-y-full bottom-0 bg-white px-3 py-12">

@@ -45,9 +45,9 @@ const LocationSearchPanel = (props) => {
       </div>
 
       {showTimePicker && (
-        <div className='time-picker-dialog'>
-          <input type="datetime-local" onChange={handleTimeChange} />
-          <button onClick={() => setShowTimePicker(false)}>Confirm</button>
+        <div className='time-picker-dialog bg-slate-200 p-4 rounded-full border-2 flex flex-row gap-8'>
+          <input type="datetime-local" className='bg-slate-200 right-3' onChange={handleTimeChange} />
+          <button className='inline-block bg-black text-white rounded-full px-3 py-1' onClick={() => setShowTimePicker(false)}>Confirm</button>
         </div>
       )}
 

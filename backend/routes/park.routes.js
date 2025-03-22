@@ -8,7 +8,7 @@ router.post('/create',
     authMiddleware.authUser,
     body('pickup').isString().isLength({ min: 3 }).withMessage('Invalid Pickup Address'),
     body('destination').isString().isLength({ min: 3 }).withMessage('Invalid Destination Address'),
-    body('vehicleType').isIn(['car', 'motorcycle', 'bicycle', 'bike']).withMessage('Invalid Vehicle Type'),
+    body('vehicleType').isIn(['car', 'motorcycle', 'bicycle', 'bike','lorry']).withMessage('Invalid Vehicle Type'),
     body('time').optional({ checkFalsy: true }).isISO8601().withMessage('Invalid Time Format'),
     parkController.createPark
 );

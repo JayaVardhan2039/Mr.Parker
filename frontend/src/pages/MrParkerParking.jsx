@@ -7,7 +7,7 @@ import LiveTracking from '../components/LiveTracking'
 import { SocketContext } from '../Context/SocketContext'
 import axios from 'axios'
 
-const MrParkerParking = () => {
+const MrParkerParking = ({ timeLeft, setTimeLeft }) => {
   const [finishParkPanel, setFinishParkPanel] = useState(false)
   const [isHandoverRequested, setIsHandoverRequested] = useState(false)
   const finishParkPanelRef=useRef(null)
@@ -44,12 +44,13 @@ const MrParkerParking = () => {
           });
           getParkAddress(response1.data.address.formatted_address)
           console.log(response1.data.address.formatted_address)
+          setSpClicked(true);
           console.log('MrParker coordinates:', latitude, longitude);
         } catch (error) {
           console.error('Error fetching address:', error);
         }
       });
-      setSpClicked(true); // Update state after emitting the event
+       // Update state after emitting the event
     }
 
 
@@ -63,7 +64,7 @@ const MrParkerParking = () => {
     <div className='h-screen'>
       <div className='h-4/5'>
         <LiveTracking/>
-        <Link to='/mrparker-home' className='fixed right-2 top-20 h-10 w-10 bg-white flex items-center justify-center rounded-full'>
+        <Link to='/mrparker-home' className='fixed left-3 top-3 h-10 w-10 bg-white flex items-center justify-center rounded-full'>
         <i className="text-lg font-medium ri-home-4-fill"></i>
       </Link>
       </div>
@@ -88,7 +89,13 @@ const MrParkerParking = () => {
 </button>
         </div>
         <div ref={finishParkPanelRef} className="fixed w-full h-screen z-10 translate-y-full bottom-0 bg-white px-3 py-12">
-          <FinishParking isHandoverRequested={isHandoverRequested} park={parkData} setFinishParkPanel={setFinishParkPanel}/>
+          <FinishParking 
+            setTimeLeft={setTimeLeft} 
+            timeLeft={timeLeft} 
+            isHandoverRequested={isHandoverRequested} 
+            park={parkData} 
+            setFinishParkPanel={setFinishParkPanel}
+          />
         </div>  
         
     </div>

@@ -17,7 +17,8 @@ async function getFare(pickup, destination) {
         car: { base: 50, perKm: 15, perMinute: 2 },
         motorcycle: { base: 30, perKm: 10, perMinute: 1.5 },
         bicycle: { base: 20, perKm: 5, perMinute: 0.5 },
-        bike: { base: 20, perKm: 5, perMinute: 0.5 }
+        bike: { base: 20, perKm: 5, perMinute: 0.5 },
+        lorry: { base: 20, perKm: 16, perMinute: 1.5 }
     };
 
     const fares = {};

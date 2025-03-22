@@ -34,6 +34,7 @@ const App = () => {
     if (timeLeft > 0) {
       const timerId = setInterval(() => {
         setTimeLeft(timeLeft - 1);
+        console.log(timeLeft)
       }, 1000);
       return () => clearInterval(timerId);
     }
@@ -43,15 +44,15 @@ const App = () => {
     <div>
       {/* Timer UI */}
       {timeLeft !== null && timer && (
-        <div className="absolute left-1/2 top-5 z-50 bg-white p-3 rounded-3xl shadow">
+        <div className="absolute right-2 top-3 z-50 bg-white p-3 rounded-3xl shadow">
           <h3>Time Left: {Math.floor(timeLeft / 60)}:{timeLeft % 60 < 10 ? '0' : ''}{timeLeft % 60}</h3>
         </div>
       )}
       <Routes>
         <Route path='/' element={<Start/>} />
         <Route path='/user-login' element={<UserLogin/>} /> 
-        <Route path='/parking' element={<Parking/>} /> 
-        <Route path='/mrparker-parking' element={<MrParkerParking/>} />
+        <Route path='/parking' element={<Parking timeLeft={timeLeft} />} /> 
+        <Route path='/mrparker-parking' element={<MrParkerParking timeLeft={timeLeft} setTimeLeft={updateTimeLeft} />} />
         <Route path='/user-register' element={<UserRegister/>} />
         <Route path='/mrparker-login' element={<MrParkerLogin/>} />
         <Route path='/mrparker-register' element={<MrParkerRegister/>} />
