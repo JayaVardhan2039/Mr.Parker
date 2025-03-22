@@ -10,6 +10,7 @@ export const UserLogin = () => {
     const [UserData, setUserData] = useState({})
     const navigate = useNavigate()
     const { user, setUser } = useContext(UserDataContext)
+    const appName = "Mr.Parker"
     const submitHandler = async (e) => {
         e.preventDefault()
         const newUser = {
@@ -29,10 +30,10 @@ export const UserLogin = () => {
     }
 return (
     <div className='p-7 h-screen flex flex-col justify-between'>
-        <div>
-        <img className='w-16 mb-10 ' src="https://d2az9qivg16qd4.cloudfront.net/s3fs-public/Uber_Logo_Black_CMYK_Logo.png"></img>
+        <span className="mr-2 quicksand absolute top-4 left-4 z-50 text-xl font-bold flex items-center">Mr.Parker</span>  
             
-            <form onSubmit={(e) => submitHandler(e)}>
+        <div className='mt-10'>
+        <form onSubmit={(e) => submitHandler(e)}>
                     <h3 className='text-lg font-medium mb-2'>What's your email?</h3>
                     <input 
                     required 

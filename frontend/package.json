@@ -13,10 +13,12 @@
     "@gsap/react": "^2.1.2",
     "@react-google-maps/api": "^2.20.6",
     "axios": "^1.7.9",
+    "framer-motion": "^12.5.0",
     "gsap": "^3.12.7",
+    "lucide-react": "^0.483.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.1.5",
+    "react-router-dom": "^7.4.0",
     "remixicon": "^4.6.0",
     "socket.io-client": "^4.8.1"
   },
