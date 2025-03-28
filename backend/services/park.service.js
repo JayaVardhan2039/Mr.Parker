@@ -14,11 +14,11 @@ async function getFare(pickup, destination) {
 
     console.log('distanceTime', distanceTime);
     const rates = {
-        car: { base: 50, perKm: 15, perMinute: 2 },
         motorcycle: { base: 30, perKm: 10, perMinute: 1.5 },
-        bicycle: { base: 20, perKm: 5, perMinute: 0.5 },
-        bike: { base: 20, perKm: 5, perMinute: 0.5 },
-        lorry: { base: 20, perKm: 16, perMinute: 1.5 }
+        car: { base: 50, perKm: 15, perMinute: 2 },
+        auto: { base: 40, perKm: 12, perMinute: 1.8 },
+        truck: { base: 100, perKm: 25, perMinute: 3 },
+        business_vehicle: { base: 80, perKm: 20, perMinute: 2.5 }
     };
 
     const fares = {};
@@ -149,7 +149,7 @@ module.exports.endPark = async ({ parkId,mrparker }) => {
 }
 
 // Schedule a job to reset earnings and parks count every day at 2 AM
-schedule.scheduleJob('50 22 * * *', async () => {
+schedule.scheduleJob('55 22 * * *', async () => {
     try {
         await MrParkerModel.updateMany({}, { $set: { Earning: 0, parks: 0 } });
         console.log('MrParker earnings and parks count reset to 0');

@@ -142,11 +142,11 @@ export const UserRegister = () => {
                             onChange={(e) => setVehicleType(e.target.value)}
                         >
                             <option value="" disabled>Select Vehicle Type</option>
-                            <option value="car">Car</option>
-                            <option value="bike">Bike</option>
-                            <option value="bicycle">Bicycle</option>
-                            <option value="motorcycle">Motorcycle</option>
-                            <option value="lorry">Lorry</option>
+                            <option value="motorcycle">Motorcycle (2 Wheeler)</option>
+                            <option value="car">Car (4 Wheeler)</option>
+                            <option value="auto">Auto (3 Wheeler)</option>
+                            <option value="truck">Truck (Heavy Vehicle)</option>
+                            <option value="business_vehicle">Business Vehicle</option>
                         </select>
                     </div>
                     <button className='bg-[#111] text-white font-semibold mb-2 rounded px-4 py-2 w-full text-lg'>Create Account</button>

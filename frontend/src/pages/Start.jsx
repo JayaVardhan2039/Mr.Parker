@@ -153,7 +153,7 @@ export default function LandingPage() {
         setTimeout(() => {
           setLoading(false)
         })
-      }, 2500)
+      }, 2000)
       return () => clearTimeout(timer)
     }
   }, [letterIndex])

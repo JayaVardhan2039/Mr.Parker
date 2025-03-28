@@ -8,6 +8,8 @@ const FinishParking = (props) => {
   const [error, setError] = useState('')
   const navigate = useNavigate()
 
+
+
   const submitHandler = async (e) => {
     e.preventDefault()
     try {
@@ -58,12 +60,12 @@ const FinishParking = (props) => {
   return (
     <div>
       <h3 className='text-2xl font-semibold mb-5'>Complete the Handover</h3>
-      {props.isHandoverRequested && (
+      {props.isHandoverRequested &&(
         <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
           User requested for handover
         </div>
       )}
-      {props.timeLeft<1 && (
+      {props.timeLeft<1 && props.showTimeUp && (
         <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
           Time is UP
         </div>

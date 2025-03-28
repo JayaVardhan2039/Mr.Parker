@@ -34,8 +34,9 @@ const ParkPopUp = (props) => {
             <div className='flex items-center gap-5 p-3'>
               <i className="text-lg ri-money-rupee-circle-line"></i>
               <div><h3 className='text-lg font-medium'>
-                Handover time {props.park?.time}
+                Handover time
               </h3>
+              <p className='text-base -mt-1 text-gray-600'> {props.park?.time}</p>
               </div>
             </div>
           )}

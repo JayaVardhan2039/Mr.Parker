@@ -20,6 +20,8 @@ const socket = io(import.meta.env.VITE_BASE_URL);
 const App = () => {
   const [timeLeft, setTimeLeft] = useState(null);
   const [timer, setTimer] = useState(true);
+  const [showTimeUp, setShowTimeUp] = useState(false)
+  
   
 
   const updateTimeLeft = (time) => {
@@ -34,7 +36,9 @@ const App = () => {
     if (timeLeft > 0) {
       const timerId = setInterval(() => {
         setTimeLeft(timeLeft - 1);
+        setShowTimeUp(true);
         console.log(timeLeft)
+        console.log(showTimeUp)
       }, 1000);
       return () => clearInterval(timerId);
     }
@@ -52,7 +56,7 @@ const App = () => {
         <Route path='/' element={<Start/>} />
         <Route path='/user-login' element={<UserLogin/>} /> 
         <Route path='/parking' element={<Parking timeLeft={timeLeft} />} /> 
-        <Route path='/mrparker-parking' element={<MrParkerParking timeLeft={timeLeft} setTimeLeft={updateTimeLeft} />} />
+        <Route path='/mrparker-parking' element={<MrParkerParking timeLeft={timeLeft} setTimeLeft={updateTimeLeft} showTimeUp={showTimeUp} />} />
         <Route path='/user-register' element={<UserRegister/>} />
         <Route path='/mrparker-login' element={<MrParkerLogin/>} />
         <Route path='/mrparker-register' element={<MrParkerRegister/>} />

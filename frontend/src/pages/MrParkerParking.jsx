@@ -7,7 +7,7 @@ import LiveTracking from '../components/LiveTracking'
 import { SocketContext } from '../Context/SocketContext'
 import axios from 'axios'
 
-const MrParkerParking = ({ timeLeft, setTimeLeft }) => {
+const MrParkerParking = ({ timeLeft, setTimeLeft,showTimeUp }) => {
   const [finishParkPanel, setFinishParkPanel] = useState(false)
   const [isHandoverRequested, setIsHandoverRequested] = useState(false)
   const finishParkPanelRef=useRef(null)
@@ -92,6 +92,7 @@ const MrParkerParking = ({ timeLeft, setTimeLeft }) => {
           <FinishParking 
             setTimeLeft={setTimeLeft} 
             timeLeft={timeLeft} 
+            showTimeUp={showTimeUp}
             isHandoverRequested={isHandoverRequested} 
             park={parkData} 
             setFinishParkPanel={setFinishParkPanel}

@@ -32,7 +32,7 @@ const Parking = ({ timeLeft }) => {
     });
     setOtp(response.data.otp);
     setOtpPanel(true);
-    if (timeLeft>10) {
+    if (timeLeft>10 || timeLeft==null) {
       socket.emit('request-handover', { parkId: park._id });
     }
   }
