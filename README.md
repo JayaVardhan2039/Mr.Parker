@@ -110,6 +110,36 @@ npm install
 npm run dev
 ```
 
+### Local Testing
+
+For testing the application across multiple devices (simulating user and Mr.Parker interfaces simultaneously), you'll need to set up port forwarding:
+
+#### For Vite Frontend (React App)
+```bash
+# Start Vite with host flag to expose the server
+npm run dev -- --host
+```
+This will make your frontend accessible via your local IP address (e.g., http://192.168.1.x:5173) from other devices on the same network.
+
+#### For Backend Server
+To make your backend accessible from other devices:
+
+1. Ensure your backend's CORS settings allow connections from your local network
+2. Update the backend/.env file to include:
+```
+HOST=0.0.0.0
+```
+3. If testing on different devices, update the frontend's .env:
+```
+VITE_BASE_URL=http://your-local-ip:3000
+```
+
+#### Testing Tips
+- Use one device (like a computer) to simulate the Mr.Parker interface
+- Use another device (like a phone) to simulate the user interface
+- Ensure both devices are connected to the same network
+- If using a mobile device, enable location services for proper map functionality
+
 ## Project Structure
 
 Need the full setup guide? Check our [Installation Wiki](docs/INSTALL.md)
